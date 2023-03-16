@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  mongo:
+    ports:
+      - "27017:27017"
+    image: mongo:latest
+  myFitApp:
+    ports:
+      - "8000:8000"
+    image: myfitapp:latest
