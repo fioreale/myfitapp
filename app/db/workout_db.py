@@ -4,7 +4,7 @@ import logging
 import json
 
 client = MongoClient(
-    host="localhost",
+    host="ferretdb",
     port=27017,
     username="username",
     password="password",
