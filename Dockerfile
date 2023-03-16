@@ -1,5 +1,5 @@
 # Set the base image
-FROM python:3.8.16-slim
+FROM python:3.9-slim
 
 # installing gcc and c compilers for fastapi installation
 RUN apt-get update -y && apt-get install build-essential -y && pip install Cython
