@@ -3,7 +3,7 @@ from ..api.models.workout import Workout, Scheda
 import logging
 import json
 
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongo", 27017)
 db = client["myFitAppDB"]
 collection = db["workouts"]
 
@@ -50,11 +50,11 @@ def loadWorkoutDB(workout: Workout):
 def updateWorkout(name: str, scheda: Scheda):
     try:
         workout_dump = getWorkoutDB(name)
-        
+
         if workout_dump is not None:
             workout_dict = json.loads(workout_dump.get("data"))
             workout_data = Workout(**workout_dict)
-            
+
             for idx, s in enumerate(workout_data.schede):
                 if s.name == scheda.name:
                     workout_data.schede[idx] = scheda
@@ -62,7 +62,9 @@ def updateWorkout(name: str, scheda: Scheda):
             if loadWorkoutDB(workout_data):
                 return True
             else:
-                logging.error(f"Failed to update workout {name}: Cannot write new one on DB!")
+                logging.error(
+                    f"Failed to update workout {name}: Cannot write new one on DB!"
+                )
                 return False
         else:
             logging.error(f"Failed to update workout {name}: It does not exist!")
