@@ -1,5 +1,5 @@
 # Set the base image
-FROM python:3.8.16-slim-bullseye
+FROM python:3.8.16-alpine3.17
 
 # Set the working directory
 WORKDIR /myFitApp
