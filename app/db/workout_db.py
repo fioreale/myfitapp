@@ -3,8 +3,14 @@ from ..api.models.workout import Workout, Scheda
 import logging
 import json
 
-client = MongoClient("mongo", 27017)
-db = client["myFitAppDB"]
+client = MongoClient(
+    host="localhost",
+    port=27017,
+    username="username",
+    password="password",
+    authMechanism="PLAIN",
+)
+db = client["myfitappdb"]
 collection = db["workouts"]
 
 logging.basicConfig(filename="app.log", level=logging.ERROR)
@@ -32,13 +38,11 @@ def loadWorkoutDB(workout: Workout):
     workout_data = json.dumps(workout.dict())
     try:
         if getWorkoutDB(workout.name) is None:
-            collection.insert_one(
-                {"name": workout.name}, {"$set": {"data": workout_data}}, upsert=True
-            )
+            collection.insert_one({"name": workout.name, "data": workout_data})
 
         else:
             collection.update_one(
-                {"name": workout.name}, {"$set": {"data": workout_data}}, upsert=True
+                {"name": workout.name}, {"$set": {"data": workout_data}}
             )
 
         return True
