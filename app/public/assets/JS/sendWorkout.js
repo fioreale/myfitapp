@@ -46,7 +46,7 @@ sendWorkout.onclick = function() {
 function createSchede(listInputElements) {
 
     let workout = {
-        id: document.querySelector('#input-workout-name').value,
+        name: document.querySelector('#input-workout-name').value,
         schede: []
     }
 
@@ -61,7 +61,7 @@ function createSchede(listInputElements) {
                 listExercises.push(ex_JSON)
 
                 let scheda = {
-                    scheda_name: String.fromCharCode(scheda_name),
+                    name: String.fromCharCode(scheda_name),
                     esercizi: listExercises
                 }
 
@@ -93,7 +93,7 @@ function createEx_JSON(exerciseRAW) {
     }
 
     let esercizio = {
-        esercizio_name: titleEx,
+        name: titleEx,
         serie: []
     }
 
