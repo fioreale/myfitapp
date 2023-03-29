@@ -2,7 +2,8 @@ var sendWorkout = document.querySelector('.sendWorkout')
 var buttonExercise = document.querySelector('.addExerciseButton')
 var buttonScheda = document.querySelector('.addSchedaButton')
 
-var input_group = '<div class="input-group input-text-exercise mb-1"><input type="text" aria-label="esercizio" class="form-control"placeholder="esercizio"><input type="text" aria-label="serie" class="form-control"placeholder="serie"><input type="text" aria-label="reps"class="form-control"placeholder="reps"></div>'
+var input_group = '<div class="input-group input-text-exercise mb-1"><input type="text" aria-label="esercizio" class="form-control" placeholder="esercizio"><input type="text" aria-label="serie" class="form-control" placeholder="serie"><input type="text" aria-label="reps" class="form-control" placeholder="reps"><button type="button" class="btn btn-danger delete-row">Delete</button><button type="button" class="btn btn-secondary move-up">&#8593;</button><button type="button" class="btn btn-secondary move-down">&#8595;</button></div>'
+
 
 buttonExercise.onclick = function() {
     buttonExercise.insertAdjacentHTML("beforebegin", input_group)
@@ -11,7 +12,32 @@ buttonExercise.onclick = function() {
 
 buttonScheda.onclick = function() {
     buttonExercise.insertAdjacentHTML("beforebegin", '<hr>')
+    buttonExercise.insertAdjacentHTML("beforebegin", '<div class="scheda"></div>')
 }
+
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('delete-row')) {
+        event.target.parentNode.remove();
+    }
+})
+
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('move-up')) {
+        let row = event.target.parentNode;
+        let prevRow = row.previousElementSibling;
+        if (prevRow && prevRow.classList.contains('input-text-exercise')) {
+            row.parentNode.insertBefore(row, prevRow);
+        }
+
+    } else if (event.target.classList.contains('move-down')) {
+        let row = event.target.parentNode;
+        let nextRow = row.nextElementSibling;
+        if (nextRow && nextRow.classList.contains('input-text-exercise')) {
+            row.parentNode.insertBefore(nextRow, row);
+        }
+    }
+})
+
 
 sendWorkout.onclick = function() {
     let listInputWorkouts = document.querySelectorAll('.input-text-exercise')
@@ -35,6 +61,12 @@ sendWorkout.onclick = function() {
                 // from fillPage.js
                 fillListWorkouts()
                 buttonExercise.previousElementSibling.innerHTML = ''
+
+                // Remove all input groups
+                let inputGroups = document.querySelectorAll('.input-text-exercise');
+                for (let i = 0; i < inputGroups.length; i++) {
+                    inputGroups[i].remove();
+                }
             })
             .catch(function(error) {
                 document.querySelector('#alert-text').textContent = 'Impossibile inserire workout!'
@@ -42,6 +74,7 @@ sendWorkout.onclick = function() {
             })
     }
 }
+
 
 function createSchede(listInputElements) {
 
