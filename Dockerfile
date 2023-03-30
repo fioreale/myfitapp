@@ -1,21 +1,19 @@
-# Build stage
-FROM python:3.9-slim AS build
+# Set the base image
+FROM python:3.9-slim
 
-RUN apt-get update && apt-get install -y build-essential
+# installing gcc and c compilers for fastapi installation
+RUN apt-get update -y && apt-get install build-essential -y && pip install Cython
 
+# Set the working directory
 WORKDIR /myFitApp
 
+# Copy the rest of the application files to the container
 COPY ./app /myFitApp/app
+
 COPY ./requirements.txt /myFitApp/requirements.txt
 
+# Install the required packages
 RUN pip install --no-cache-dir --upgrade -r /myFitApp/requirements.txt
 
-# Production stage
-FROM python:3.9-alpine
-
-WORKDIR /myFitApp
-
-COPY --from=build /myFitApp /myFitApp
-
+# Start the app with uvicorn
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
-
