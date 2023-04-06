@@ -24,6 +24,9 @@ async def validation_exception_handler(request, exc):
 
 @app.get("/workout/{name}")
 async def get_workout(name: str):
+    if not name:
+        raise HTTPException(status_code=400, detail="Name parameter cannot be empty")
+    
     try:
         workout_db = getWorkoutDB(name)
 
