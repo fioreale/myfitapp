@@ -6,14 +6,6 @@ class Serie(BaseModel):
     reps: str
     carico: str
 
-    @validator("reps")
-    def reps_must_be_feasible(cls, v):
-        try:
-            int(v)
-        except:
-            raise ValueError("reps must be integer")
-        return v
-
 
 class Esercizio(BaseModel):
     name: str
