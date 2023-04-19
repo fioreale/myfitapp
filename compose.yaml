@@ -5,6 +5,7 @@ services:
     ports:
       - "8000:8000"
     image: myfitapp:latest
+    restart: on-failure
 
   postgres:
     image: postgres
