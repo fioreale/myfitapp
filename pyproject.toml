@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "myfitapp"
+version = "0.1.0"
+description = "a cloud native application for tracking gym workouts, built in FastAPI."
+authors = ["fioreale <alefio96@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.102.0"
+pymongo = "^4.5.0"
+uvicorn = "^0.23.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
