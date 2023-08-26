@@ -4,11 +4,15 @@ services:
   myFitApp:
     ports:
       - "8000:8000"
-    image: myfitapp:latest
+    image: my-fitapp
+    container_name: my-fitapp
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile
     restart: on-failure
 
   postgres:
-    image: postgres
+    image: postgres:alpine
     container_name: postgres
     ports:
       - 5432:5432
