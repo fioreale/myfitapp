@@ -1,0 +1,22 @@
+# Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Dependencies
+venv/
+env/
+env/
+*.env
+*.venv
+*.env.bak
+pip-log.txt
+pip-delete-this-directory.txt
+dist/
+build/
+*.egg-info/
+.idea/
+.vscode/
+*.egg
+*.egg-info/
