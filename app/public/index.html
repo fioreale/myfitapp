@@ -25,10 +25,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/CSS/font.css" />
+    <link rel="stylesheet" href="./assets/CSS/got_top.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-
-    <title>Login</title>
+    <title>myFitnessAPP</title>
   </head>
 
   <body>
@@ -47,18 +46,513 @@
         </h1>
         <!-- <p class="lead">This is a fitness app created by Alessio Fiorentino.</p> -->
       </div>
-    </div>
 
-    <div class="d-flex p-2 bd-highlight justify-content-center">
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="secret">Secret</label>
-          <input type="password" class="form-control" id="secret" />
+      <div class="d-flex justify-content-center flex-row bd-highlight">
+        <div
+          class="btn-group mr-3"
+          role="group"
+          aria-label="Basic example"
+          id="schedeButtons"
+        >
+          <button type="button" class="btn btn-outline-secondary">A</button>
+          <button type="button" class="btn btn-outline-secondary">B</button>
+          <button type="button" class="btn btn-outline-secondary">C</button>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-toggle="modal"
+          data-target="#modalAddWorkout"
+        >
+          CAMBIA
+        </button>
+      </div>
     </div>
 
-    <script src="./assets/JS/login.js"></script>
+    <div
+      class="d-flex align-items-center flex-column bg-light bd-highlight mb-3"
+    >
+      <div
+        class="d-flex justify-content-around align-items-center flex-column bd-highlight my-3"
+      >
+        <div class="p-2 bd-highlight">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-outline-dark" id="option1">
+              5
+            </button>
+            <button type="button" class="btn btn-outline-dark" id="option2">
+              10
+            </button>
+            <button type="button" class="btn btn-outline-dark" id="option3">
+              15
+            </button>
+            <button type="button" class="btn btn-outline-dark" id="option4">
+              30
+            </button>
+            <button type="button" class="btn btn-outline-dark" id="option5">
+              60
+            </button>
+            <button
+              type="button"
+              class="btn btn-dark"
+              id="reset"
+              aria-expanded="false"
+              aria-controls="collapseTimer"
+            >
+              RESET
+            </button>
+          </div>
+        </div>
+        <div class="p-2 bd-highlight"><kbd id="rest-time">01:00</kbd></div>
+        <div class="p-2 bd-highlight">
+          <button
+            type="button"
+            class="btn btn-success"
+            id="start"
+            aria-expanded="false"
+            aria-controls="collapseTimer"
+          >
+            START
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="collapse bg-warning mb-3 font-weight-bold text-monospace"
+      id="collapseTimer"
+    >
+      <div id="time" class="text-center" style="font-size: 7em">00:00</div>
+    </div>
+
+    <div
+      class="d-flex align-items-center flex-column bg-light bd-highlight mb-3"
+    >
+      <div class="p-2 bd-highlight">
+        <ul class="list-group list-group-flush listExercises" scheda="">
+          <li class="list-group-item">
+            <h5>Esercizio 1</h5>
+            <div class="custom-control custom-checkbox mb-1">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="es1check1"
+              />
+              <label class="custom-control-label" for="es1check1">
+                <kbd>+10kg</kbd>
+                <kbd>12 reps</kbd>
+                <button
+                  type="button"
+                  class="btn btn-outline-dark btn-sm modalMOD"
+                  data-toggle="modal"
+                  data-target="#modalModifySerie"
+                >
+                  modify
+                </button>
+              </label>
+            </div>
+            <div class="custom-control custom-checkbox mb-1">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="es1check2"
+              />
+              <label class="custom-control-label" for="es1check2">
+                <kbd>+10kg</kbd>
+                <kbd>12 reps</kbd>
+                <button
+                  type="button"
+                  class="btn btn-outline-dark btn-sm modalMOD"
+                  data-toggle="modal"
+                  data-target="#modalModifySerie"
+                >
+                  modify
+                </button>
+              </label>
+            </div>
+            <div class="custom-control custom-checkbox mb-1">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="es1check3"
+              />
+              <label class="custom-control-label" for="es1check3">
+                <kbd>+10kg</kbd>
+                <kbd>12 reps</kbd>
+                <button
+                  type="button"
+                  class="btn btn-outline-dark btn-sm modalMOD"
+                  data-toggle="modal"
+                  data-target="#modalModifySerie"
+                >
+                  modify
+                </button>
+              </label>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <h5>Esercizio 2</h5>
+            <div class="custom-control custom-checkbox mb-1">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="es2check1"
+              />
+              <label class="custom-control-label" for="es2check1">
+                <kbd>+10kg</kbd>
+                <kbd>12 reps</kbd>
+                <button
+                  type="button"
+                  class="btn btn-outline-dark btn-sm modalMOD"
+                  data-toggle="modal"
+                  data-target="#modalModifySerie"
+                >
+                  modify
+                </button>
+              </label>
+            </div>
+            <div class="custom-control custom-checkbox mb-1">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="es2check2"
+              />
+              <label class="custom-control-label" for="es2check2">
+                <kbd>+10kg</kbd>
+                <kbd>12 reps</kbd>
+                <button
+                  type="button"
+                  class="btn btn-outline-dark btn-sm modalMOD"
+                  data-toggle="modal"
+                  data-target="#modalModifySerie"
+                >
+                  modify
+                </button>
+              </label>
+            </div>
+            <div class="custom-control custom-checkbox mb-1">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="es2check3"
+              />
+              <label class="custom-control-label" for="es2check3">
+                <kbd>+10kg</kbd>
+                <kbd>12 reps</kbd>
+                <button
+                  type="button"
+                  class="btn btn-outline-dark btn-sm modalMOD"
+                  data-toggle="modal"
+                  data-target="#modalModifySerie"
+                >
+                  modify
+                </button>
+              </label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center flex-column bg-light bd-highlight">
+      <div class="d-flex justify-content-around flex-row bd-highlight my-3">
+        <!-- <div class="p-2 bd-highlight">
+                <button type="button" class="btn btn-danger" id="exitScheda">
+                    ESCI
+                </button>
+            </div> -->
+        <div class="p-2 bd-highlight">
+          <button type="button" class="btn btn-info" id="updateScheda">
+            AGGIORNA
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="modalModifySerie"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalModifySerie"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Aggiorna dati della serie</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="input-weight">Carico</span>
+              </div>
+              <input
+                type="text"
+                class="form-control inputWeight"
+                aria-label="Sizing example input"
+                aria-describedby="input-weight"
+              />
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="input-reps">Reps/Note</span>
+              </div>
+              <input
+                type="text"
+                class="form-control inputReps"
+                aria-label="Sizing example input"
+                aria-describedby="input-reps"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Chiudi
+            </button>
+            <button type="button" class="btn btn-primary saveChanges">
+              Salva cambiamenti
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="modalAddWorkout"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalAddWorkout"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Cambia allenamento</h5>
+          </div>
+          <div class="modal-body">
+            <!-- lista -->
+            <div class="list-group listWorkouts">
+              <button
+                type="button"
+                class="btn-sm list-group-item list-group-item-action workoutEl"
+              >
+                Cras justo odio
+              </button>
+            </div>
+
+            <hr />
+
+            <h5>Carica nuovo workout</h5>
+
+            <div class="d-flex flex-column align-items-center bd-highlight">
+              <div class="input-group flex-nowrap mb-1 appendix-workout-input">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping"
+                    >Workout</span
+                  >
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nome"
+                  aria-label="Nome"
+                  aria-describedby="addon-wrapping"
+                  id="input-workout-name"
+                />
+              </div>
+              <hr />
+              <button
+                type="button"
+                class="btn btn-outline-light btn-sm btn-block addExerciseButton"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="4"
+                  height="4"
+                  fill="currentColor"
+                  class="bi bi-plus-square-dotted"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="btn btn-light btn-sm btn-block addSchedaButton"
+                hidden
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="4"
+                  height="4"
+                  fill="currentColor"
+                  class="bi bi-plus-square-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"
+                  />
+                </svg>
+                Aggiungi Scheda
+              </button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Chiudi
+            </button>
+            <button type="button" class="btn btn-primary sendWorkout">
+              Inserisci Workout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="alert-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="alert-modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="alert alert-info" role="alert" id="alert-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a class="top-link hide" href="" id="js-top">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M8,16 C3.581722,16 0,12.418278 0,8 C0,3.581722 3.581722,0 8,0 C12.418278,0 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 Z M8,14 C11.3137085,14 14,11.3137085 14,8 C14,4.6862915 11.3137085,2 8,2 C4.6862915,2 2,4.6862915 2,8 C2,11.3137085 4.6862915,14 8,14 Z M9,7.41421356 L9,12 L7,12 L7,7.41421356 L5.70710678,8.70710678 L4.29289322,7.29289322 L8,3.58578644 L11.7071068,7.29289322 L10.2928932,8.70710678 L9,7.41421356 Z"
+          fill-rule="evenodd"
+        />
+      </svg>
+    </a>
+
+    <script src="./assets/JS/timer.js"></script>
+    <script src="./assets/JS/modifySerie.js"></script>
+    <script src="./assets/JS/sendWorkout.js"></script>
+    <script src="./assets/JS/fillPage.js"></script>
+    <script src="./assets/JS/updateScheda.js"></script>
+    <script src="./assets/JS/go_top.js"></script>
+    <script src="./assets/JS/changeWorkout.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
   </body>
+
+  <script>
+    var start_rest = document.querySelector("#start"),
+      reset = document.querySelector("#reset"),
+      intervals = new Array(),
+      notifications = new Array(),
+      exit = document.querySelector("#exitScheda"),
+      banner_notifi = document.querySelector(".banner-registrazione-app"),
+      register_notifi = document.querySelector("#button-register-app");
+
+    // function notify(duration) {
+    //     fetch('../workout/notifi/' + duration, {
+    //         method: 'GET'
+    //     }).then(function(response) {
+    //         return response.json()
+    //     }).then(function(json) {
+    //         if (json === 'notifi NOK!') {
+    //             banner_notifi.removeAttribute('hidden')
+    //         }
+    //     })
+    // }
+
+    function startTimer(duration, display) {
+      let timer = duration,
+        minutes,
+        seconds;
+
+      let start = new Date().getTime();
+      let final = new Date(start + new Date(timer * 1000).getTime()).getTime();
+
+      let refreshSecond = setInterval(function () {
+        let time = Math.round((final - new Date().getTime()) / 1000);
+
+        minutes = parseInt(time / 60, 10);
+        seconds = parseInt(time % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (time <= 0) {
+          clearInterval(refreshSecond);
+          display.textContent = "TIME!";
+        }
+      }, 1000);
+
+      // notify(duration)
+
+      intervals.push(refreshSecond);
+    }
+
+    start_rest.onclick = function () {
+      $("#collapseTimer").collapse("show");
+      let display = document.querySelector("#time");
+      let rest = document.querySelector("#rest-time");
+      let minutes = parseInt(rest.innerText.split(":")[0]);
+      let seconds = parseInt(rest.innerText.split(":")[1]);
+      let time = seconds + minutes * 60;
+      for (i = 0; i < intervals.length; i++) {
+        clearInterval(intervals[i]);
+      }
+      startTimer(time, display);
+    };
+
+    reset.onclick = function () {
+      $("#collapseTimer").collapse("hide");
+      let display = document.querySelector("#time");
+      for (i = 0; i < intervals.length; i++) {
+        clearInterval(intervals[i]);
+      }
+      display.textContent = "00:00";
+      rest.textContent = "00:00";
+    };
+  </script>
 </html>
