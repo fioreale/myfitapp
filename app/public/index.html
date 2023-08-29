@@ -1,274 +1,305 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-bs-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+
+    <!-- ─── Metadata ────────────────────────────────────────── -->
+
+    <title>myFitnessAPP</title>
     <link rel="icon" href="./assets/muscle.png" type="image/x-icon" />
     <meta
       name="description"
       content="Web-app which help you track your training sessions"
     />
     <meta name="keywords" content="training app workout exercises" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
+
+    <!-- ─── Google Fonts ────────────────────────────────────── -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap"
       rel="stylesheet"
     />
+
+    <!-- ─── Css ─────────────────────────────────────────────── -->
+
     <link rel="stylesheet" href="./assets/CSS/font.css" />
     <link rel="stylesheet" href="./assets/CSS/got_top.css" />
-
-    <title>myFitnessAPP</title>
   </head>
 
   <body>
-    <div class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="display-5">
-          <span>
-            <img
-              style="margin-bottom: 0.5em"
-              src="./assets/muscle.png"
-              alt="logo"
-              height="50"
-            />
-          </span>
-          myFitnessAPP
-        </h1>
-        <!-- <p class="lead">This is a fitness app created by Alessio Fiorentino.</p> -->
-      </div>
+    <div class="container">
+      <div class="d-flex flex-column justify-content-around">
+        <!-- ─── Navbar ──────────────────────────── -->
 
-      <div class="d-flex justify-content-center flex-row bd-highlight">
-        <div
-          class="btn-group mr-3"
-          role="group"
-          aria-label="Basic example"
-          id="schedeButtons"
-        >
-          <button type="button" class="btn btn-outline-secondary">A</button>
-          <button type="button" class="btn btn-outline-secondary">B</button>
-          <button type="button" class="btn btn-outline-secondary">C</button>
-        </div>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-toggle="modal"
-          data-target="#modalAddWorkout"
-        >
-          CAMBIA
-        </button>
-      </div>
-    </div>
+        <span class="border border-2 rounded-2 my-4">
+          <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="">
+                <img
+                  src="./assets/muscle.png"
+                  alt="Logo"
+                  height="100"
+                  class="d-inline-block align-text-bottom"
+                />
+                <span class="display-5 fw-bold">myFitnessAPP</span>
+              </a>
+            </div>
+          </nav>
+        </span>
 
-    <div
-      class="d-flex align-items-center flex-column bg-light bd-highlight mb-3"
-    >
-      <div
-        class="d-flex justify-content-around align-items-center flex-column bd-highlight my-3"
-      >
-        <div class="p-2 bd-highlight">
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-outline-dark" id="option1">
-              5
-            </button>
-            <button type="button" class="btn btn-outline-dark" id="option2">
-              10
-            </button>
-            <button type="button" class="btn btn-outline-dark" id="option3">
-              15
-            </button>
-            <button type="button" class="btn btn-outline-dark" id="option4">
-              30
-            </button>
-            <button type="button" class="btn btn-outline-dark" id="option5">
-              60
-            </button>
+        <div class="d-flex flex-row justify-content-center">
+          <div class="p-2">
+            <div class="btn-group" role="group" id="schedeButtons">
+              <button type="button" class="btn btn-outline-primary">A</button>
+              <button type="button" class="btn btn-outline-primary">B</button>
+              <button type="button" class="btn btn-outline-primary">C</button>
+            </div>
+          </div>
+          <div class="p-2">
             <button
               type="button"
-              class="btn btn-dark"
-              id="reset"
-              aria-expanded="false"
-              aria-controls="collapseTimer"
+              class="btn btn-outline-warning"
+              data-bs-toggle="modal"
+              data-bs-target="#modalAddWorkout"
             >
-              RESET
+              CAMBIA
             </button>
           </div>
         </div>
-        <div class="p-2 bd-highlight"><kbd id="rest-time">01:00</kbd></div>
-        <div class="p-2 bd-highlight">
-          <button
-            type="button"
-            class="btn btn-success"
-            id="start"
-            aria-expanded="false"
-            aria-controls="collapseTimer"
+
+        <!-- ─── Timer ───────────────────────────── -->
+
+        <span class="border border-2 rounded-2 my-4">
+          <div class="d-flex align-items-center flex-column bg-body-tertiary">
+            <div
+              class="d-flex justify-content-around align-items-center flex-column"
+            >
+              <div class="p-2">
+                <div class="btn-group" role="group" aria-label="time-steps">
+                  <button type="button" class="btn btn-secondary" id="option1">
+                    5
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="option2">
+                    10
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="option3">
+                    15
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="option4">
+                    30
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="option5">
+                    60
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="reset"
+                    aria-expanded="false"
+                    aria-controls="collapseTimer"
+                  >
+                    RESET
+                  </button>
+                </div>
+              </div>
+              <div class="p-2">
+                <kbd id="rest-time">01:00</kbd>
+              </div>
+              <div class="p-2">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  id="start"
+                  aria-expanded="false"
+                  aria-controls="collapseTimer"
+                >
+                  START
+                </button>
+              </div>
+            </div>
+          </div>
+        </span>
+
+        <div
+          class="collapse bg-warning mb-3 font-weight-bold text-monospace"
+          id="collapseTimer"
+        >
+          <div
+            id="time"
+            class="text-center"
+            style="font-size: 7em; color: black"
           >
-            START
-          </button>
+            00:00
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div
-      class="collapse bg-warning mb-3 font-weight-bold text-monospace"
-      id="collapseTimer"
-    >
-      <div id="time" class="text-center" style="font-size: 7em">00:00</div>
-    </div>
+        <!-- ─── Workout ─────────────────────────── -->
 
-    <div
-      class="d-flex align-items-center flex-column bg-light bd-highlight mb-3"
-    >
-      <div class="p-2 bd-highlight">
-        <ul class="list-group list-group-flush listExercises" scheda="">
-          <li class="list-group-item">
-            <h5>Esercizio 1</h5>
-            <div class="custom-control custom-checkbox mb-1">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="es1check1"
-              />
-              <label class="custom-control-label" for="es1check1">
-                <kbd>+10kg</kbd>
-                <kbd>12 reps</kbd>
-                <button
-                  type="button"
-                  class="btn btn-outline-dark btn-sm modalMOD"
-                  data-toggle="modal"
-                  data-target="#modalModifySerie"
-                >
-                  modify
-                </button>
-              </label>
-            </div>
-            <div class="custom-control custom-checkbox mb-1">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="es1check2"
-              />
-              <label class="custom-control-label" for="es1check2">
-                <kbd>+10kg</kbd>
-                <kbd>12 reps</kbd>
-                <button
-                  type="button"
-                  class="btn btn-outline-dark btn-sm modalMOD"
-                  data-toggle="modal"
-                  data-target="#modalModifySerie"
-                >
-                  modify
-                </button>
-              </label>
-            </div>
-            <div class="custom-control custom-checkbox mb-1">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="es1check3"
-              />
-              <label class="custom-control-label" for="es1check3">
-                <kbd>+10kg</kbd>
-                <kbd>12 reps</kbd>
-                <button
-                  type="button"
-                  class="btn btn-outline-dark btn-sm modalMOD"
-                  data-toggle="modal"
-                  data-target="#modalModifySerie"
-                >
-                  modify
-                </button>
-              </label>
-            </div>
-          </li>
+        <div class="d-flex align-items-center flex-column">
+          <div class="p-2 bd-highlight">
+            <ul class="list-group list-group-flush listExercises" scheda="">
+              <li class="list-group-item">
+                <h5>Esercizio 1</h5>
+                <div class="custom-control custom-checkbox mb-1">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="es1check1"
+                  />
+                  <label class="custom-control-label" for="es1check1">
+                    <kbd>+10kg</kbd>
+                    <kbd>12 reps</kbd>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-sm modalMOD"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalModifySerie"
+                    >
+                      modify
+                    </button>
+                  </label>
+                </div>
+                <div class="custom-control custom-checkbox mb-1">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="es1check2"
+                  />
+                  <label class="custom-control-label" for="es1check2">
+                    <kbd>+10kg</kbd>
+                    <kbd>12 reps</kbd>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-sm modalMOD"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalModifySerie"
+                    >
+                      modify
+                    </button>
+                  </label>
+                </div>
+                <div class="custom-control custom-checkbox mb-1">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="es1check3"
+                  />
+                  <label class="custom-control-label" for="es1check3">
+                    <kbd>+10kg</kbd>
+                    <kbd>12 reps</kbd>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-sm modalMOD"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalModifySerie"
+                    >
+                      modify
+                    </button>
+                  </label>
+                </div>
+              </li>
 
-          <li class="list-group-item">
-            <h5>Esercizio 2</h5>
-            <div class="custom-control custom-checkbox mb-1">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="es2check1"
-              />
-              <label class="custom-control-label" for="es2check1">
-                <kbd>+10kg</kbd>
-                <kbd>12 reps</kbd>
-                <button
-                  type="button"
-                  class="btn btn-outline-dark btn-sm modalMOD"
-                  data-toggle="modal"
-                  data-target="#modalModifySerie"
-                >
-                  modify
-                </button>
-              </label>
-            </div>
-            <div class="custom-control custom-checkbox mb-1">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="es2check2"
-              />
-              <label class="custom-control-label" for="es2check2">
-                <kbd>+10kg</kbd>
-                <kbd>12 reps</kbd>
-                <button
-                  type="button"
-                  class="btn btn-outline-dark btn-sm modalMOD"
-                  data-toggle="modal"
-                  data-target="#modalModifySerie"
-                >
-                  modify
-                </button>
-              </label>
-            </div>
-            <div class="custom-control custom-checkbox mb-1">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="es2check3"
-              />
-              <label class="custom-control-label" for="es2check3">
-                <kbd>+10kg</kbd>
-                <kbd>12 reps</kbd>
-                <button
-                  type="button"
-                  class="btn btn-outline-dark btn-sm modalMOD"
-                  data-toggle="modal"
-                  data-target="#modalModifySerie"
-                >
-                  modify
-                </button>
-              </label>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="d-flex align-items-center flex-column bg-light bd-highlight">
-      <div class="d-flex justify-content-around flex-row bd-highlight my-3">
-        <!-- <div class="p-2 bd-highlight">
-                <button type="button" class="btn btn-danger" id="exitScheda">
-                    ESCI
-                </button>
-            </div> -->
-        <div class="p-2 bd-highlight">
-          <button type="button" class="btn btn-info" id="updateScheda">
-            AGGIORNA
-          </button>
+              <li class="list-group-item">
+                <h5>Esercizio 2</h5>
+                <div class="custom-control custom-checkbox mb-1">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="es2check1"
+                  />
+                  <label class="custom-control-label" for="es2check1">
+                    <kbd>+10kg</kbd>
+                    <kbd>12 reps</kbd>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-sm modalMOD"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalModifySerie"
+                    >
+                      modify
+                    </button>
+                  </label>
+                </div>
+                <div class="custom-control custom-checkbox mb-1">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="es2check2"
+                  />
+                  <label class="custom-control-label" for="es2check2">
+                    <kbd>+10kg</kbd>
+                    <kbd>12 reps</kbd>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-sm modalMOD"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalModifySerie"
+                    >
+                      modify
+                    </button>
+                  </label>
+                </div>
+                <div class="custom-control custom-checkbox mb-1">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="es2check3"
+                  />
+                  <label class="custom-control-label" for="es2check3">
+                    <kbd>+10kg</kbd>
+                    <kbd>12 reps</kbd>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-sm modalMOD"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalModifySerie"
+                    >
+                      modify
+                    </button>
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
+
+        <div class="d-flex align-items-center flex-column">
+          <div class="d-flex justify-content-around flex-row bd-highlight my-2">
+            <div class="p-2">
+              <button
+                type="button"
+                class="btn btn-outline-warning"
+                id="updateScheda"
+              >
+                AGGIORNA
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="text-center">
+          Made with
+          <i>
+            <img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAACmElEQVR4nO2Xy2sTURSHR1sjggtBEIn4RLIoFl25USkWCsWFds7NCL66EimCukjOmewChWL1LygIggtxo0vd68aNLhTUheADdKGTjmnm3kR8jSQkbTCTyUzmzm0q84OzyeLc75s5mTOjaUmSJEky0HGNYkrolBWAdwTDNwKwzAFrnOF7weih0PGyo+e2he1bg8I+ztDkDB9zRp850A8BaAugVxxwgQOecIvF9ZHgHWaeb4K6fsWBuACac43i5l49uZHfLoBucYY/e/UVQC+4np8MDe5OXtkoAG/3PKDjQHxZM3J7feAPccCPYXpyRn8E0Hzgu+EaxpAAfBQafqW+OHruwL99HZ0mOFC1374ccCGQgGB4IwJ86058bZeICi+WC2d84b9PFTKBZjOohGGOyoOnes/y0lRhq9/VvyvloGZVjhhlZ/zCW5k9BeBsl9kvpgSjijT4sTNuaXiDW0pt+l05Ph3qjyv8x+i1p0DVMI/Khrc0rVHSJU5iukPAAfNsHPCxSBh02Gv+Z6I2do6ddktDwx3wsiUcnSY6BSDP4oSXKcF186DnlowbXoYEB/r17dS1LZ1PIU1bx4E+xQ0fVYIDPfHZA3RTBXwkCcBLXQXqW04ALamA70eCA72r76uuAo3HaRbPqYK3QkjUvxeqBo75wq+MEl5XBW8FkKi/UvMsXgwEvywBNK8K3vKRaHwPMLoaCt5LIm54y0MiEny7hCp4q11ifPpDZPjWfljckXmmCt5qlr1n9J4mM3Y681QZ/M6RB1LhVUrYccGrkLDjho9TwlYFH4eErRpepoS9WvAyJOzVho8isbhrQOD7kRg4+DASAwsfRGLg4f0k1gy8l8Sag2+9xdrp/c/Lu0fuN35IkiRJkv8yfwFsgodpIpT2SQAAAABJRU5ErkJggg=="
+          /></i>
+          by Alessio Fiorentino
+        </p>
       </div>
     </div>
+
+    <!-- ─── Modal :: Aggiorna Serie ─────────────────────────── -->
 
     <div
       class="modal fade"
@@ -285,7 +316,7 @@
             <button
               type="button"
               class="close"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
@@ -320,7 +351,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Chiudi
             </button>
@@ -331,6 +362,8 @@
         </div>
       </div>
     </div>
+
+    <!-- ─── Modal :: Cambia Allenamento ─────────────────────── -->
 
     <div
       class="modal fade"
@@ -343,7 +376,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Cambia allenamento</h5>
+            <h5 class="modal-title">Workouts</h5>
           </div>
           <div class="modal-body">
             <!-- lista -->
@@ -358,78 +391,88 @@
 
             <hr />
 
-            <h5>Carica nuovo workout</h5>
+            <h5>Nuovo Workout</h5>
 
-            <div class="d-flex flex-column align-items-center bd-highlight">
-              <div class="input-group flex-nowrap mb-1 appendix-workout-input">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="addon-wrapping"
-                    >Workout</span
-                  >
+            <div class="d-flex flex-column align-items-center">
+              <div class="p-2">
+                <div
+                  class="input-group flex-nowrap mb-1 appendix-workout-input"
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping"
+                      >Workout</span
+                    >
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nome"
+                    aria-label="Nome"
+                    aria-describedby="addon-wrapping"
+                    id="input-workout-name"
+                  />
                 </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Nome"
-                  aria-label="Nome"
-                  aria-describedby="addon-wrapping"
-                  id="input-workout-name"
-                />
               </div>
-              <hr />
+              <div class="p-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm btn-block addExerciseButton"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="4"
+                    height="4"
+                    fill="currentColor"
+                    class="bi bi-plus-square-dotted"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+                    />
+                  </svg>
+                  Esercizio
+                </button>
+              </div>
+              <div class="p-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm btn-block addSchedaButton"
+                  hidden
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="4"
+                    height="4"
+                    fill="currentColor"
+                    class="bi bi-plus-square-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+                    />
+                  </svg>
+                  Scheda
+                </button>
+              </div>
+            </div>
+            <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-outline-light btn-sm btn-block addExerciseButton"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="4"
-                  height="4"
-                  fill="currentColor"
-                  class="bi bi-plus-square-dotted"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-                  />
-                </svg>
+                Chiudi
               </button>
-              <button
-                type="button"
-                class="btn btn-light btn-sm btn-block addSchedaButton"
-                hidden
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="4"
-                  height="4"
-                  fill="currentColor"
-                  class="bi bi-plus-square-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"
-                  />
-                </svg>
-                Aggiungi Scheda
+              <button type="button" class="btn btn-primary sendWorkout">
+                Inserisci Workout
               </button>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Chiudi
-            </button>
-            <button type="button" class="btn btn-primary sendWorkout">
-              Inserisci Workout
-            </button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- ─── Modal :: Alert Info ─────────────────────────────── -->
 
     <div
       class="modal fade"
@@ -470,13 +513,13 @@
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
       crossorigin="anonymous"
     ></script>
   </body>
@@ -489,18 +532,6 @@
       exit = document.querySelector("#exitScheda"),
       banner_notifi = document.querySelector(".banner-registrazione-app"),
       register_notifi = document.querySelector("#button-register-app");
-
-    // function notify(duration) {
-    //     fetch('../workout/notifi/' + duration, {
-    //         method: 'GET'
-    //     }).then(function(response) {
-    //         return response.json()
-    //     }).then(function(json) {
-    //         if (json === 'notifi NOK!') {
-    //             banner_notifi.removeAttribute('hidden')
-    //         }
-    //     })
-    // }
 
     function startTimer(duration, display) {
       let timer = duration,

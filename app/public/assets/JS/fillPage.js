@@ -66,13 +66,14 @@ function fillExercise(name, serie) {
 function completeElement(name, num, carico, reps) {
   let nameToPlace = name.replace(/[^a-zA-Z0-9]+/g, "");
   let exElement =
-    '<div class="d-flex align-items-center flex-row bd-highlight mb-1">' +
-    '<div class="custom-control custom-checkbox">' +
-    '<input type="checkbox" class="custom-control-input" id="' +
+    '<div class="d-flex flex-row justify-content-center align-items-center">' +
+    '<div class="p-2">' +
+    '<div class="form-check">' +
+    '<input type="checkbox" class="form-check-input" id="' +
     nameToPlace +
     num +
     '">' +
-    '<label class="custom-control-label ' +
+    '<label class="form-check-label ' +
     nameToPlace +
     "Serie" +
     '" for="' +
@@ -85,8 +86,8 @@ function completeElement(name, num, carico, reps) {
     "<kbd>" +
     reps +
     "</kbd>\n" +
-    "</label></div>" +
-    '<button type="button" class="btn btn-outline-dark btn-sm ml-1 modalMOD" data-toggle="modal" data-target="#modalModifySerie">\naggiorna</button></div>';
+    "</label></div></div>" +
+    '<div class="p-2"><button type="button" class="btn btn-secondary btn-sm modalMOD" data-bs-toggle="modal" data-bs-target="#modalModifySerie">\naggiorna</button></div></div>';
 
   return exElement;
 }
@@ -95,7 +96,7 @@ function fillButtons(json) {
   json.schede.forEach((scheda) => {
     let name = scheda.name;
     let button =
-      '<button type="button" class="btn btn-outline-secondary schedaButton">' +
+      '<button type="button" class="btn btn-secondary schedaButton">' +
       name +
       "</button>";
 
