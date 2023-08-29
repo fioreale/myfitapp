@@ -10,8 +10,9 @@ function modifySerie() {
   elements.forEach((el) => {
     el.onclick = (event) => {
       weightMOD =
-        event.target.parentElement.firstElementChild.firstElementChild
-          .nextElementSibling.firstElementChild;
+        event.target.parentElement.parentElement.firstElementChild
+          .firstElementChild.firstElementChild.nextElementSibling
+          .firstElementChild;
 
       repsMOD = weightMOD.nextElementSibling;
 
