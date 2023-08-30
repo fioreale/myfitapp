@@ -1,19 +1,23 @@
 var list = document.querySelector(".listExercises");
-var schedaButtons = document.querySelector("#schedeButtons");
 list.innerHTML = "";
-schedaButtons.innerHTML = "";
+var schedaButtons = document.querySelector("#schedeButtons");
+if (schedaButtons.previousElementSibling !== null) {
+  schedaButtons.previousElementSibling.remove();
+}
 fillListWorkouts();
 
 function fillPage(workout_id) {
   list.innerHTML = "";
-  schedaButtons.innerHTML = "";
+  if (schedaButtons.previousElementSibling !== null) {
+    schedaButtons.previousElementSibling.remove();
+  }
+
   setTimeout(() => {
     fetch("../workout/" + workout_id, {
       method: "GET",
     })
       .then(function (response) {
         return response.json();
-        // return response
       })
       .then(function (json) {
         fillButtons(json);
@@ -25,10 +29,11 @@ function fillPage(workout_id) {
             list.innerHTML = "";
             let schedaName = event.target.textContent;
             fillScheda(json, schedaName);
-            // from modifySerie.js
+            // ─── From Modifyserie.js ─────
             modifySerie();
             updateScheda(workout_id);
             sendUpdate.parentElement.removeAttribute("hidden");
+            // ─────────────────────────────
           };
         });
       });
@@ -93,6 +98,14 @@ function completeElement(name, num, carico, reps) {
 }
 
 function fillButtons(json) {
+  // ─── Create Button Group ─────────────────────────────────────────────
+  let new_buttons = document.createElement("div");
+  new_buttons.className = "p-2";
+  let new_btn_group = document.createElement("div");
+  new_btn_group.className = "btn-group";
+  new_btn_group.role = "group";
+
+  // ─── Add Buttons ─────────────────────────────────────────────────────
   json.schede.forEach((scheda) => {
     let name = scheda.name;
     let button =
@@ -100,8 +113,11 @@ function fillButtons(json) {
       name +
       "</button>";
 
-    schedaButtons.innerHTML += button;
+    new_btn_group.innerHTML += button;
   });
+
+  new_buttons.insertAdjacentElement("afterbegin", new_btn_group);
+  schedaButtons.insertAdjacentElement("beforebegin", new_buttons);
 }
 
 function fillListWorkouts() {
@@ -111,7 +127,6 @@ function fillListWorkouts() {
   fetch("../workout")
     .then(function (response) {
       return response.json();
-      // return response
     })
     .then(function (array) {
       array.forEach((el) => {
@@ -122,7 +137,8 @@ function fillListWorkouts() {
 
         list.innerHTML += button;
       });
-      // from changeWorkout.js
+      // ─── From Changeworkout.js ───────────────────────────
       changeWorkout();
+      // ─────────────────────────────────────────────────────
     });
 }
