@@ -61,13 +61,13 @@
 
         <div class="d-flex flex-row justify-content-center">
           <div class="p-2">
-            <div class="btn-group" role="group" id="schedeButtons">
+            <div class="btn-group" role="group">
               <button type="button" class="btn btn-outline-primary">A</button>
               <button type="button" class="btn btn-outline-primary">B</button>
               <button type="button" class="btn btn-outline-primary">C</button>
             </div>
           </div>
-          <div class="p-2">
+          <div class="p-2" id="schedeButtons">
             <button
               type="button"
               class="btn btn-outline-warning"
@@ -557,9 +557,7 @@
           display.textContent = "TIME!";
         }
       }, 1000);
-
-      // notify(duration)
-
+      
       intervals.push(refreshSecond);
     }
 
