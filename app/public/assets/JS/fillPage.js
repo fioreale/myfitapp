@@ -1,19 +1,23 @@
 var list = document.querySelector(".listExercises");
-var schedaButtons = document.querySelector("#schedeButtons");
 list.innerHTML = "";
-schedaButtons.innerHTML = "";
+var schedaButtons = document.querySelector("#schedeButtons");
+if (schedaButtons.previousElementSibling !== null) {
+  schedaButtons.previousElementSibling.remove();
+}
 fillListWorkouts();
 
 function fillPage(workout_id) {
   list.innerHTML = "";
-  schedaButtons.innerHTML = "";
+  if (schedaButtons.previousElementSibling !== null) {
+    schedaButtons.previousElementSibling.remove();
+  }
+
   setTimeout(() => {
     fetch("../workout/" + workout_id, {
       method: "GET",
     })
       .then(function (response) {
         return response.json();
-        // return response
       })
       .then(function (json) {
         fillButtons(json);
@@ -25,10 +29,11 @@ function fillPage(workout_id) {
             list.innerHTML = "";
             let schedaName = event.target.textContent;
             fillScheda(json, schedaName);
-            // from modifySerie.js
+            // ─── From Modifyserie.js ─────
             modifySerie();
             updateScheda(workout_id);
             sendUpdate.parentElement.removeAttribute("hidden");
+            // ─────────────────────────────
           };
         });
       });
@@ -66,13 +71,14 @@ function fillExercise(name, serie) {
 function completeElement(name, num, carico, reps) {
   let nameToPlace = name.replace(/[^a-zA-Z0-9]+/g, "");
   let exElement =
-    '<div class="d-flex align-items-center flex-row bd-highlight mb-1">' +
-    '<div class="custom-control custom-checkbox">' +
-    '<input type="checkbox" class="custom-control-input" id="' +
+    '<div class="d-flex flex-row justify-content-center align-items-center">' +
+    '<div class="p-2">' +
+    '<div class="form-check">' +
+    '<input type="checkbox" class="form-check-input" id="' +
     nameToPlace +
     num +
     '">' +
-    '<label class="custom-control-label ' +
+    '<label class="form-check-label ' +
     nameToPlace +
     "Serie" +
     '" for="' +
@@ -85,22 +91,33 @@ function completeElement(name, num, carico, reps) {
     "<kbd>" +
     reps +
     "</kbd>\n" +
-    "</label></div>" +
-    '<button type="button" class="btn btn-outline-dark btn-sm ml-1 modalMOD" data-toggle="modal" data-target="#modalModifySerie">\naggiorna</button></div>';
+    "</label></div></div>" +
+    '<div class="p-2"><button type="button" class="btn btn-secondary btn-sm modalMOD" data-bs-toggle="modal" data-bs-target="#modalModifySerie">\naggiorna</button></div></div>';
 
   return exElement;
 }
 
 function fillButtons(json) {
+  // ─── Create Button Group ─────────────────────────────────────────────
+  let new_buttons = document.createElement("div");
+  new_buttons.className = "p-2";
+  let new_btn_group = document.createElement("div");
+  new_btn_group.className = "btn-group";
+  new_btn_group.role = "group";
+
+  // ─── Add Buttons ─────────────────────────────────────────────────────
   json.schede.forEach((scheda) => {
     let name = scheda.name;
     let button =
-      '<button type="button" class="btn btn-outline-secondary schedaButton">' +
+      '<button type="button" class="btn btn-secondary schedaButton">' +
       name +
       "</button>";
 
-    schedaButtons.innerHTML += button;
+    new_btn_group.innerHTML += button;
   });
+
+  new_buttons.insertAdjacentElement("afterbegin", new_btn_group);
+  schedaButtons.insertAdjacentElement("beforebegin", new_buttons);
 }
 
 function fillListWorkouts() {
@@ -110,7 +127,6 @@ function fillListWorkouts() {
   fetch("../workout")
     .then(function (response) {
       return response.json();
-      // return response
     })
     .then(function (array) {
       array.forEach((el) => {
@@ -121,7 +137,8 @@ function fillListWorkouts() {
 
         list.innerHTML += button;
       });
-      // from changeWorkout.js
+      // ─── From Changeworkout.js ───────────────────────────
       changeWorkout();
+      // ─────────────────────────────────────────────────────
     });
 }
