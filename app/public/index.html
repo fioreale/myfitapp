@@ -498,21 +498,11 @@
       </div>
     </div>
 
-    <a class="top-link hide" href="" id="js-top">
-      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M8,16 C3.581722,16 0,12.418278 0,8 C0,3.581722 3.581722,0 8,0 C12.418278,0 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 Z M8,14 C11.3137085,14 14,11.3137085 14,8 C14,4.6862915 11.3137085,2 8,2 C4.6862915,2 2,4.6862915 2,8 C2,11.3137085 4.6862915,14 8,14 Z M9,7.41421356 L9,12 L7,12 L7,7.41421356 L5.70710678,8.70710678 L4.29289322,7.29289322 L8,3.58578644 L11.7071068,7.29289322 L10.2928932,8.70710678 L9,7.41421356 Z"
-          fill-rule="evenodd"
-        />
-      </svg>
-    </a>
-
     <script src="./assets/JS/timer.js"></script>
     <script src="./assets/JS/modifySerie.js"></script>
     <script src="./assets/JS/sendWorkout.js"></script>
     <script src="./assets/JS/fillPage.js"></script>
     <script src="./assets/JS/updateScheda.js"></script>
-    <script src="./assets/JS/go_top.js"></script>
     <script src="./assets/JS/changeWorkout.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -532,63 +522,72 @@
   </body>
 
   <script>
-    var start_rest = document.querySelector("#start"),
-      reset = document.querySelector("#reset"),
-      intervals = new Array(),
-      notifications = new Array(),
-      exit = document.querySelector("#exitScheda"),
-      banner_notifi = document.querySelector(".banner-registrazione-app"),
-      register_notifi = document.querySelector("#button-register-app");
+    class Timer {
+      constructor(displayElement) {
+        this.displayElement = displayElement;
+        this.intervalId = null;
+        this.endTime = 0;
+      }
 
-    function startTimer(duration, display) {
-      let timer = duration,
-        minutes,
-        seconds;
+      start(duration) {
+        this.endTime = Date.now() + duration * 1000;
+        this.tick();
+        this.intervalId = setInterval(() => this.tick(), 1000);
+      }
 
-      let start = new Date().getTime();
-      let final = new Date(start + new Date(timer * 1000).getTime()).getTime();
+      stop() {
+        this.clearInterval();
+        this.time = 0;
+        this.updateDisplay();
+      }
 
-      let refreshSecond = setInterval(function () {
-        let time = Math.round((final - new Date().getTime()) / 1000);
+      reset() {
+        this.clearInterval();
+        this.start(this.time);
+      }
 
-        minutes = parseInt(time / 60, 10);
-        seconds = parseInt(time % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.textContent = minutes + ":" + seconds;
-
+      tick() {
+        let time = Math.round((this.endTime - Date.now()) / 1000);
         if (time <= 0) {
-          clearInterval(refreshSecond);
-          display.textContent = "TIME!";
+          this.stop();
+          this.displayElement.textContent = "TIME!";
+        } else {
+          this.updateDisplay(time);
         }
-      }, 1000);
+      }
 
-      intervals.push(refreshSecond);
+      updateDisplay(time) {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        this.displayElement.textContent = `${minutes}:${
+          seconds < 10 ? "0" : ""
+        }${seconds}`;
+      }
+
+      clearInterval() {
+        if (this.intervalId) {
+          clearInterval(this.intervalId);
+          this.intervalId = null;
+        }
+      }
     }
 
-    start_rest.onclick = function () {
+    const display = document.querySelector("#time");
+    const timer = new Timer(display);
+
+    document.querySelector("#start").addEventListener("click", () => {
       $("#collapseTimer").collapse("show");
-      let display = document.querySelector("#time");
       let rest = document.querySelector("#rest-time");
       let minutes = parseInt(rest.innerText.split(":")[0]);
       let seconds = parseInt(rest.innerText.split(":")[1]);
       let time = seconds + minutes * 60;
-      for (i = 0; i < intervals.length; i++) {
-        clearInterval(intervals[i]);
-      }
-      startTimer(time, display);
-    };
+      timer.start(time);
+    });
 
-    reset.onclick = function () {
+    document.querySelector("#reset").addEventListener("click", () => {
       $("#collapseTimer").collapse("hide");
-      let display = document.querySelector("#time");
-      for (i = 0; i < intervals.length; i++) {
-        clearInterval(intervals[i]);
-      }
-      display.textContent = "00:00";
+      timer.reset();
       rest.textContent = "00:00";
-    };
+    });
   </script>
 </html>
