@@ -1,5 +1,6 @@
 from typing import List
-from pydantic import BaseModel, validator
+
+from pydantic import BaseModel
 
 
 class Serie(BaseModel):

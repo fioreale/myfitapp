@@ -2,8 +2,7 @@ var sendWorkout = document.querySelector(".sendWorkout");
 var buttonExercise = document.querySelector(".addExerciseButton");
 var buttonScheda = document.querySelector(".addSchedaButton");
 
-var input_group =
-  '<div class="input-group input-text-exercise mb-1"><input type="text" aria-label="esercizio" class="form-control" placeholder="esercizio"><input type="text" aria-label="serie" class="form-control" placeholder="serie"><input type="text" aria-label="reps" class="form-control" placeholder="reps"><button type="button" class="btn btn-danger delete-row">Delete</button><button type="button" class="btn btn-secondary move-up">&#8593;</button><button type="button" class="btn btn-secondary move-down">&#8595;</button></div>';
+var input_group = `<div class="input-group input-text-exercise mb-1"><input type="text" aria-label="esercizio" class="form-control" placeholder="esercizio"><input type="text" aria-label="serie" class="form-control" placeholder="serie"><input type="text" aria-label="reps" class="form-control" placeholder="reps"><button type="button" class="btn btn-danger delete-row">Delete</button><button type="button" class="btn btn-secondary move-up">&#8593;</button><button type="button" class="btn btn-secondary move-down">&#8595;</button></div>`;
 
 buttonExercise.onclick = function () {
   buttonExercise.insertAdjacentHTML("beforebegin", input_group);
@@ -14,7 +13,7 @@ buttonScheda.onclick = function () {
   buttonExercise.insertAdjacentHTML("beforebegin", "<hr>");
   buttonExercise.insertAdjacentHTML(
     "beforebegin",
-    '<div class="scheda"></div>'
+    `<div class="scheda"></div>`
   );
 };
 
@@ -40,7 +39,7 @@ document.addEventListener("click", function (event) {
   }
 });
 
-sendWorkout.onclick = function () {
+document.querySelector(".sendWorkout").addEventListener("click", function () {
   let listInputWorkouts = document.querySelectorAll(".input-text-exercise");
   let workoutJSON = createSchede(listInputWorkouts);
   if (
@@ -63,23 +62,35 @@ sendWorkout.onclick = function () {
     })
       .then(function (response) {
         $("#modalAddWorkout").modal("hide");
-        // from fillPage.js
+
+        // ─── From Fillpage.js ────────────────────────
         fillListWorkouts();
         buttonExercise.previousElementSibling.innerHTML = "";
 
-        // Remove all input groups
+        // ─── Remove All Input Groups ─────────────────
         let inputGroups = document.querySelectorAll(".input-text-exercise");
         for (let i = 0; i < inputGroups.length; i++) {
           inputGroups[i].remove();
         }
+
+        // ─── Print Alert Info ────────────────────────
+        if (response.status === 200) {
+          document.querySelector("#alert-text").textContent =
+            "Nuovo workout aggiunto!";
+          $("#alert-modal").modal("show");
+        } else {
+          document.querySelector("#alert-text-error").textContent =
+            "Impossibile inserire workout!";
+          $("#alert-modal-error").modal("show");
+        }
       })
       .catch(function (error) {
-        document.querySelector("#alert-text").textContent =
-          "Impossibile inserire workout!";
-        $("#alert-modal").modal("show");
+        document.querySelector("#alert-text-error").textContent =
+          "Impossibile inserire workout :: " + error;
+        $("#alert-modal-error").modal("show");
       });
   }
-};
+});
 
 function createSchede(listInputElements) {
   let workout = {
