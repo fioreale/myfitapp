@@ -74,14 +74,20 @@ document.querySelector(".sendWorkout").addEventListener("click", function () {
         }
 
         // ─── Print Alert Info ────────────────────────
-        document.querySelector("#alert-text").textContent =
-          "Nuovo workout aggiunto!";
-        $("#alert-modal").modal("show");
+        if (response.status === 200) {
+          document.querySelector("#alert-text").textContent =
+            "Nuovo workout aggiunto!";
+          $("#alert-modal").modal("show");
+        } else {
+          document.querySelector("#alert-text-error").textContent =
+            "Impossibile inserire workout!";
+          $("#alert-modal-error").modal("show");
+        }
       })
       .catch(function (error) {
-        document.querySelector("#alert-text").textContent =
-          "Impossibile inserire workout!";
-        $("#alert-modal").modal("show");
+        document.querySelector("#alert-text-error").textContent =
+          "Impossibile inserire workout :: " + error;
+        $("#alert-modal-error").modal("show");
       });
   }
 });
