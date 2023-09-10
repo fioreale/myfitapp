@@ -8,13 +8,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
 from .api.models.workout import Scheda, Workout
-from .db.workout_db import (
-    getWorkoutDB,
-    getWorkoutList,
-    loadWorkoutDB,
-    updateWorkout,
-    deleteWorkout,
-)
+from .db.workout_db import (deleteWorkout, getWorkoutDB, getWorkoutList,
+                            loadWorkoutDB, updateWorkout)
 
 app = FastAPI()
 
