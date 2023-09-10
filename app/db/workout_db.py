@@ -1,7 +1,9 @@
-from pymongo import MongoClient
-from ..api.models.workout import Workout, Scheda
-import logging
 import json
+import logging
+
+from pymongo import MongoClient
+
+from ..api.models.workout import Scheda, Workout
 
 client = MongoClient(
     host="ferretdb.internal",
@@ -12,8 +14,6 @@ client = MongoClient(
 )
 db = client["myfitappdb"]
 collection = db["workouts"]
-
-logging.basicConfig(filename="app.log", level=logging.ERROR)
 
 
 def getWorkoutDB(name: str):
@@ -34,8 +34,8 @@ def getWorkoutList():
         return None
 
 
-def loadWorkoutDB(workout: Workout):
-    workout_data = json.dumps(workout.dict())
+def loadWorkoutDB(workout: Workout) -> bool:
+    workout_data = json.dumps(workout.model_dump())
     try:
         if getWorkoutDB(workout.name) is None:
             collection.insert_one({"name": workout.name, "data": workout_data})
@@ -51,7 +51,7 @@ def loadWorkoutDB(workout: Workout):
         return False
 
 
-def updateWorkout(name: str, scheda: Scheda):
+def updateWorkout(name: str, scheda: Scheda) -> bool:
     try:
         workout_dump = getWorkoutDB(name)
 
@@ -76,4 +76,16 @@ def updateWorkout(name: str, scheda: Scheda):
 
     except Exception as e:
         logging.error(f"Failed to update workout {name}: {e}")
+        return False
+
+
+def deleteWorkout(name: str) -> bool:
+    try:
+        res = collection.delete_one({"name": name})
+        if res.deleted_count == 1:
+            return True
+        else:
+            return False
+    except Exception as e:
+        logging.error(f"Failed to get item {name}: {e}")
         return False
