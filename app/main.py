@@ -1,15 +1,15 @@
+import json
+
+import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
-from .api.models.workout import Workout, Scheda
-from .db.workout_db import getWorkoutDB, getWorkoutList, loadWorkoutDB, updateWorkout
-
-import uvicorn
-
-import json
+from .api.models.workout import Scheda, Workout
+from .db.workout_db import (deleteWorkout, getWorkoutDB, getWorkoutList,
+                            loadWorkoutDB, updateWorkout)
 
 app = FastAPI()
 
@@ -26,7 +26,7 @@ async def validation_exception_handler(request, exc):
 async def get_workout(name: str):
     if not name:
         raise HTTPException(status_code=400, detail="Name parameter cannot be empty")
-    
+
     try:
         workout_db = getWorkoutDB(name)
 
@@ -38,6 +38,24 @@ async def get_workout(name: str):
             return workout_data
         else:
             raise HTTPException(status_code=400, detail="No workout to load")
+    except ValidationError as e:
+        raise RequestValidationError(errors=e.errors())
+
+
+@app.delete("/workout/{name}")
+async def delete_workout(name: str):
+    if not name:
+        raise HTTPException(status_code=400, detail="Name parameter cannot be empty")
+
+    try:
+        res = deleteWorkout(name)
+
+        if res:
+            return JSONResponse(status_code=200, content={"message": "Workout deleted"})
+        else:
+            return JSONResponse(
+                status_code=500, content={"message": "Cannot delete workout"}
+            )
     except ValidationError as e:
         raise RequestValidationError(errors=e.errors())
 
