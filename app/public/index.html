@@ -35,7 +35,7 @@
     <!-- ─── Css ─────────────────────────────────────────────── -->
 
     <link rel="stylesheet" href="./assets/CSS/font.css" />
-    <link rel="stylesheet" href="./assets/CSS/got_top.css" />
+    <link rel="stylesheet" href="./assets/CSS/toast.css" />
   </head>
 
   <body>
@@ -141,7 +141,7 @@
             class="text-center"
             style="font-size: 7em; color: black"
           >
-            00:00
+            0:00
           </div>
         </div>
 
@@ -311,8 +311,9 @@
     <div
       class="modal fade"
       id="modalModifySerie"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
       tabindex="-1"
-      role="dialog"
       aria-labelledby="modalModifySerie"
       aria-hidden="true"
     >
@@ -375,8 +376,9 @@
     <div
       class="modal fade"
       id="modalAddWorkout"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
       tabindex="-1"
-      role="dialog"
       aria-labelledby="modalAddWorkout"
       aria-hidden="true"
     >
@@ -479,6 +481,30 @@
       </div>
     </div>
 
+    <!-- ─── Modal :: Delete Workout ─────────────────────────── -->
+
+    <div
+      class="toast"
+      id="delete-toast"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-body">
+        Il workout sta per essere eliminato. Confermi?
+        <div class="mt-2 pt-2 border-top">
+          <button type="button" class="btn btn-primary btn-sm">Cancella</button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            data-bs-dismiss="toast"
+          >
+            Chiudi
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- ─── Modal :: Alert Info ─────────────────────────────── -->
 
     <div
@@ -498,12 +524,36 @@
       </div>
     </div>
 
+    <div
+      class="modal fade"
+      id="alert-modal-error"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="alert-modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div
+              class="alert alert-danger"
+              role="alert"
+              id="alert-text-error"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────── -->
+
     <script src="./assets/JS/timer.js"></script>
     <script src="./assets/JS/modifySerie.js"></script>
     <script src="./assets/JS/sendWorkout.js"></script>
     <script src="./assets/JS/fillPage.js"></script>
     <script src="./assets/JS/updateScheda.js"></script>
     <script src="./assets/JS/changeWorkout.js"></script>
+    <script src="./assets/JS/deleteWorkout.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -587,7 +637,7 @@
     document.querySelector("#reset").addEventListener("click", () => {
       $("#collapseTimer").collapse("hide");
       timer.reset();
-      rest.textContent = "00:00";
+      document.querySelector("#rest-time").textContent = "0:00";
     });
   </script>
 </html>
