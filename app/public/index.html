@@ -115,7 +115,7 @@
                 </div>
               </div>
               <div class="p-2">
-                <kbd id="rest-time">01:00</kbd>
+                <kbd id="rest-time">1:30</kbd>
               </div>
               <div class="p-2">
                 <button
@@ -587,13 +587,12 @@
 
       stop() {
         this.clearInterval();
-        this.time = 0;
         this.updateDisplay();
       }
 
       reset() {
         this.clearInterval();
-        this.start(this.time);
+        this.start(0);
       }
 
       tick() {
@@ -616,7 +615,6 @@
 
       clearInterval() {
         if (this.intervalId) {
-          clearInterval(this.intervalId);
           this.intervalId = null;
         }
       }
