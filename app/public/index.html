@@ -586,13 +586,14 @@
       }
 
       stop() {
-        this.clearInterval();
+        clearInterval(this.intervalId);
         this.updateDisplay();
       }
 
       reset() {
-        this.clearInterval();
-        this.start(0);
+        clearInterval(this.intervalId);
+        this.endTime = Date.now();
+        this.tick();
       }
 
       tick() {
@@ -611,12 +612,6 @@
         this.displayElement.textContent = `${minutes}:${
           seconds < 10 ? "0" : ""
         }${seconds}`;
-      }
-
-      clearInterval() {
-        if (this.intervalId) {
-          this.intervalId = null;
-        }
       }
     }
 
