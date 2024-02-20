@@ -4,13 +4,14 @@ from pydantic import BaseModel
 
 
 class Serie(BaseModel):
+    series: int
     reps: str
     carico: str
 
 
 class Esercizio(BaseModel):
     name: str
-    serie: List[Serie]
+    serie: Serie
 
 
 class Scheda(BaseModel):
