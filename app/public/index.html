@@ -7,11 +7,13 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0"
     />
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css">
+
 
     <!-- ─── Metadata ────────────────────────────────────────── -->
 
@@ -19,7 +21,7 @@
     <link rel="icon" href="./assets/muscle.png" type="image/x-icon" />
     <meta
       name="description"
-      content="Web-app which help you track your training sessions"
+      content="Web-app to help you track your training sessions"
     />
     <meta name="keywords" content="training app workout exercises" />
 
@@ -88,19 +90,44 @@
             >
               <div class="p-2">
                 <div class="btn-group" role="group" aria-label="time-steps">
-                  <button type="button" class="btn btn-secondary" id="option1">
+                  <button
+                    type="button"
+                    class="btn btn-secondary time-option"
+                    data-time="5"
+                    id="option1"
+                  >
                     5
                   </button>
-                  <button type="button" class="btn btn-secondary" id="option2">
+                  <button
+                    type="button"
+                    class="btn btn-secondary time-option"
+                    data-time="10"
+                    id="option2"
+                  >
                     10
                   </button>
-                  <button type="button" class="btn btn-secondary" id="option3">
+                  <button
+                    type="button"
+                    class="btn btn-secondary time-option"
+                    data-time="15"
+                    id="option3"
+                  >
                     15
                   </button>
-                  <button type="button" class="btn btn-secondary" id="option4">
+                  <button
+                    type="button"
+                    class="btn btn-secondary time-option"
+                    data-time="30"
+                    id="option4"
+                  >
                     30
                   </button>
-                  <button type="button" class="btn btn-secondary" id="option5">
+                  <button
+                    type="button"
+                    class="btn btn-secondary time-option"
+                    data-time="60"
+                    id="option5"
+                  >
                     60
                   </button>
                   <button
@@ -321,14 +348,6 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Aggiorna dati della serie</h5>
-            <button
-              type="button"
-              class="close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
           <div class="modal-body">
             <div class="input-group input-group-sm mb-3">
@@ -373,114 +392,44 @@
 
     <!-- ─── Modal :: Cambia Allenamento ─────────────────────── -->
 
-    <div
-      class="modal fade"
-      id="modalAddWorkout"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="modalAddWorkout"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="modalAddWorkout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAddWorkoutTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Workouts</h5>
+            <h5 class="modal-title" id="modalAddWorkoutTitle">Workouts</h5>
           </div>
           <div class="modal-body">
-            <!-- lista -->
             <div class="list-group listWorkouts">
-              <button
-                type="button"
-                class="btn-sm list-group-item list-group-item-action workoutEl"
-              >
-                Cras justo odio
-              </button>
+              <button type="button" class="btn-sm list-group-item list-group-item-action workoutEl">Cras justo odio</button>
             </div>
-
+    
             <hr />
-
+    
             <h5>Nuovo Workout</h5>
-
+    
             <div class="d-flex flex-column align-items-center">
-              <div class="p-2">
-                <div
-                  class="input-group flex-nowrap mb-1 appendix-workout-input"
-                >
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="addon-wrapping"
-                      >Workout</span
-                    >
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Nome"
-                    aria-label="Nome"
-                    aria-describedby="addon-wrapping"
-                    id="input-workout-name"
-                  />
-                </div>
+              <div class="input-group flex-nowrap mb-1 appendix-workout-input">
+                <span class="input-group-text" id="addon-wrapping">Workout</span>
+                <input type="text" class="form-control" placeholder="Nome" aria-label="Nome" aria-describedby="addon-wrapping" id="input-workout-name" />
               </div>
-              <div class="p-2">
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-sm btn-block addExerciseButton"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="4"
-                    height="4"
-                    fill="currentColor"
-                    class="bi bi-plus-square-dotted"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-                    />
-                  </svg>
-                  Esercizio
-                </button>
-              </div>
-              <div class="p-2">
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-sm btn-block addSchedaButton"
-                  hidden
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="4"
-                    height="4"
-                    fill="currentColor"
-                    class="bi bi-plus-square-fill"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-                    />
-                  </svg>
-                  Scheda
-                </button>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Chiudi
+    
+              <!-- Updated buttons with clearer icons and better styling -->
+              <button type="button" class="btn btn-outline-primary mb-2 addExerciseButton">
+                <i class="bi bi-plus-lg"></i> Aggiungi Esercizio
               </button>
-              <button type="button" class="btn btn-primary sendWorkout">
-                Inserisci Workout
+              <button type="button" class="btn btn-outline-success addSchedaButton" hidden>
+                <i class="bi bi-journal-plus"></i> Aggiungi Scheda
               </button>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            <button type="button" class="btn btn-primary sendWorkout">Inserisci Workout</button>
           </div>
         </div>
       </div>
     </div>
-
+    
     <!-- ─── Modal :: Delete Workout ─────────────────────────── -->
 
     <div
@@ -565,8 +514,8 @@
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
-      integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
   </body>
