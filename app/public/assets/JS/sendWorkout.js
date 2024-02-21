@@ -139,17 +139,12 @@ function createEx_JSON(exerciseRAW) {
 
   let esercizio = {
     name: titleEx,
-    serie: [],
+    serie: {
+      series: howMany,
+      reps: reps,
+      carico: "0",
+    },
   };
-
-  let serie = {
-    reps: reps,
-    carico: "0",
-  };
-
-  for (let i = 0; i < howMany; i++) {
-    esercizio.serie.push(serie);
-  }
 
   return esercizio;
 }

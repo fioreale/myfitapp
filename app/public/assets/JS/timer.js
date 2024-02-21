@@ -1,34 +1,22 @@
-document.querySelector("#option1").addEventListener("click", () => {
-  setTime(5);
-});
-document.querySelector("#option2").addEventListener("click", () => {
-  setTime(10);
-});
-document.querySelector("#option3").addEventListener("click", () => {
-  setTime(15);
-});
-document.querySelector("#option4").addEventListener("click", () => {
-  setTime(30);
-});
-document.querySelector("#option5").addEventListener("click", () => {
-  setTime(60);
+// Assuming all option buttons share a common class 'time-option'
+document.querySelectorAll(".time-option").forEach((button) => {
+  button.addEventListener("click", () => {
+    const secStep = parseInt(button.dataset.time, 10); // Use data attributes e.g., data-time="5"
+    setTime(secStep);
+  });
 });
 
-function setTime(sec_step) {
-  minutes = parseInt(
-    document.querySelector("#rest-time").innerText.split(":")[0]
-  );
-  seconds = parseInt(
-    document.querySelector("#rest-time").innerText.split(":")[1]
-  );
-  time = seconds + minutes * 60;
+function setTime(secStep) {
+  const restTimeElement = document.querySelector("#rest-time");
+  let [minutes, seconds] = restTimeElement.textContent
+    .split(":")
+    .map((num) => parseInt(num, 10));
+  let totalTime = minutes * 60 + seconds + secStep;
 
-  time += sec_step;
+  minutes = parseInt(totalTime / 60, 10);
+  seconds = totalTime % 60;
 
-  minutes = parseInt(time / 60, 10);
-  seconds = parseInt(time % 60, 10);
-
-  seconds = seconds < 10 ? "0" + seconds : seconds;
-
-  document.querySelector("#rest-time").innerText = minutes + ":" + seconds;
+  restTimeElement.textContent = `${minutes}:${
+    seconds < 10 ? "0" : ""
+  }${seconds}`;
 }
