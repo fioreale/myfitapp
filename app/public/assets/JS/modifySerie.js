@@ -1,47 +1,42 @@
 function modifySerie() {
-  var elements = document.querySelectorAll(".modalMOD");
-  var save_changes = document.querySelector(".saveChanges");
-  var weightMOD = null;
-  var repsMOD = null;
+  const elements = document.querySelectorAll(".modalMOD");
+  const saveChanges = document.querySelector(".saveChanges");
 
-  let weight = document.querySelector(".inputWeight");
-  let reps = document.querySelector(".inputReps");
+  let weightMOD, repsMOD;
+
+  // Reference to the input fields in the modal
+  const weightInput = document.querySelector(".inputWeight");
+  const repsInput = document.querySelector(".inputReps");
 
   elements.forEach((el) => {
-    el.onclick = (event) => {
-      weightMOD =
-        event.target.parentElement.parentElement.firstElementChild
-          .firstElementChild.firstElementChild.nextElementSibling
-          .firstElementChild;
+    el.addEventListener("click", (event) => {
+      // Navigate the DOM to find the corresponding weight and reps badges
+      const exerciseDetail = event.target
+        .closest(".d-flex.align-items-center")
+        .querySelector(".exercise-details");
+      weightMOD = exerciseDetail.querySelector(".weight");
+      repsMOD = exerciseDetail.querySelector(".reps");
 
-      repsMOD = weightMOD.nextElementSibling;
+      // Set input placeholders to current values
+      weightInput.placeholder = weightMOD.textContent;
+      repsInput.placeholder = repsMOD.textContent;
 
-      weight.placeholder = weightMOD.textContent;
-      reps.placeholder = repsMOD.textContent;
-    };
+      // Optionally, set input values to current values for direct editing
+      weightInput.value = weightMOD.textContent;
+      repsInput.value = repsMOD.textContent;
+    });
   });
 
-  // -------------------------------------------------------------
+  saveChanges.addEventListener("click", () => {
+    // Update textContent based on input values or revert to placeholders if inputs are empty
+    weightMOD.textContent = weightInput.value || weightInput.placeholder;
+    repsMOD.textContent = repsInput.value || repsInput.placeholder;
 
-  save_changes.onclick = function () {
-    if (weight.value.length === 0 && reps.value.length > 0) {
-      weightMOD.textContent = weight.placeholder;
-      repsMOD.textContent = reps.value;
-    } else if (reps.value.length === 0 && weight.value.length > 0) {
-      weightMOD.textContent = weight.value;
-      repsMOD.textContent = reps.placeholder;
-    } else if (reps.value.length > 0 && weight.value.length > 0) {
-      weightMOD.textContent = weight.value;
-      repsMOD.textContent = reps.value;
-    } else {
-      weightMOD.textContent = weight.placeholder;
-      repsMOD.textContent = reps.placeholder;
-    }
+    // Reset input fields
+    weightInput.value = "";
+    repsInput.value = "";
 
-    weight.value = "";
-    reps.value = "";
-
-    // close the modal window
+    // Close the modal window using jQuery
     $("#modalModifySerie").modal("hide");
-  };
+  });
 }
