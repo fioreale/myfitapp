@@ -1,155 +1,144 @@
-var sendWorkout = document.querySelector(".sendWorkout");
-var buttonExercise = document.querySelector(".addExerciseButton");
-var buttonScheda = document.querySelector(".addSchedaButton");
+document.addEventListener("DOMContentLoaded", () => {
+  const sendWorkoutButton = document.querySelector(".sendWorkout");
+  const buttonExercise = document.querySelector(".addExerciseButton");
+  const buttonScheda = document.querySelector(".addSchedaButton");
+  const workoutNameInput = document.querySelector("#input-workout-name");
+  const alertText = document.querySelector("#alert-text");
+  const modalAddWorkout = $("#modalAddWorkout");
+  const alertModal = $("#alert-modal");
 
-var input_group = `<div class="input-group input-text-exercise mb-1"><input type="text" aria-label="esercizio" class="form-control" placeholder="esercizio"><input type="text" aria-label="serie" class="form-control" placeholder="serie"><input type="text" aria-label="reps" class="form-control" placeholder="reps"><button type="button" class="btn btn-danger delete-row">Delete</button><button type="button" class="btn btn-secondary move-up">&#8593;</button><button type="button" class="btn btn-secondary move-down">&#8595;</button></div>`;
+  const inputGroupHTML = `
+      <div class="input-group input-text-exercise mb-1">
+          <input type="text" aria-label="esercizio" class="form-control" placeholder="esercizio">
+          <input type="text" aria-label="serie" class="form-control" placeholder="serie">
+          <input type="text" aria-label="reps" class="form-control" placeholder="reps">
+          <button type="button" class="btn btn-danger delete-row">Delete</button>
+          <button type="button" class="btn btn-secondary move-up">&#8593;</button>
+          <button type="button" class="btn btn-secondary move-down">&#8595;</button>
+      </div>`;
 
-buttonExercise.onclick = function () {
-  buttonExercise.insertAdjacentHTML("beforebegin", input_group);
-  buttonScheda.removeAttribute("hidden");
-};
+  buttonExercise.addEventListener("click", () => {
+    buttonExercise.insertAdjacentHTML("beforebegin", inputGroupHTML);
+    buttonScheda.removeAttribute("hidden");
+  });
 
-buttonScheda.onclick = function () {
-  buttonExercise.insertAdjacentHTML("beforebegin", "<hr>");
-  buttonExercise.insertAdjacentHTML(
-    "beforebegin",
-    `<div class="scheda"></div>`
-  );
-};
+  buttonScheda.addEventListener("click", () => {
+    buttonExercise.insertAdjacentHTML("beforebegin", "<hr>");
+    buttonExercise.insertAdjacentHTML("beforebegin", `<div class="scheda"></div>`);
+  });
 
-document.addEventListener("click", function (event) {
-  if (event.target.classList.contains("delete-row")) {
-    event.target.parentNode.remove();
-  }
-});
-
-document.addEventListener("click", function (event) {
-  if (event.target.classList.contains("move-up")) {
-    let row = event.target.parentNode;
-    let prevRow = row.previousElementSibling;
-    if (prevRow && prevRow.classList.contains("input-text-exercise")) {
-      row.parentNode.insertBefore(row, prevRow);
+  document.addEventListener("click", event => {
+    const target = event.target;
+    if (target.classList.contains("delete-row")) {
+      target.closest(".input-group").remove();
+    } else if (target.classList.contains("move-up")) {
+      moveElement(target.closest(".input-group"), true);
+    } else if (target.classList.contains("move-down")) {
+      moveElement(target.closest(".input-group"), false);
     }
-  } else if (event.target.classList.contains("move-down")) {
-    let row = event.target.parentNode;
-    let nextRow = row.nextElementSibling;
-    if (nextRow && nextRow.classList.contains("input-text-exercise")) {
-      row.parentNode.insertBefore(nextRow, row);
+  });
+
+  sendWorkoutButton.addEventListener("click", async () => {
+    const listInputWorkouts = document.querySelectorAll(".input-text-exercise");
+    const workoutJSON = createSchede(listInputWorkouts);
+
+    if (!workoutNameInput.value.trim() || !workoutJSON) {
+      alertText.textContent = "Valori Mancanti!";
+      alertModal.modal("show");
+      return;
     }
-  }
-});
 
-document.querySelector(".sendWorkout").addEventListener("click", function () {
-  let listInputWorkouts = document.querySelectorAll(".input-text-exercise");
-  let workoutJSON = createSchede(listInputWorkouts);
-  if (
-    listInputWorkouts.length === 0 ||
-    document.querySelector("#input-workout-name").value === "" ||
-    workoutJSON === null
-  ) {
-    document.querySelector("#alert-text").textContent = "Valori Mancanti!";
-    $("#alert-modal").modal("show");
-  } else {
-    document.querySelector("#input-workout-name").value = "";
-
-    fetch("../workout", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: workoutJSON,
-    })
-      .then(function (response) {
-        $("#modalAddWorkout").modal("hide");
-
-        // ─── From Fillpage.js ────────────────────────
-        fillListWorkouts();
-        buttonExercise.previousElementSibling.innerHTML = "";
-
-        // ─── Remove All Input Groups ─────────────────
-        let inputGroups = document.querySelectorAll(".input-text-exercise");
-        for (let i = 0; i < inputGroups.length; i++) {
-          inputGroups[i].remove();
-        }
-
-        // ─── Print Alert Info ────────────────────────
-        if (response.status === 200) {
-          document.querySelector("#alert-text").textContent =
-            "Nuovo workout aggiunto!";
-          $("#alert-modal").modal("show");
-        } else {
-          document.querySelector("#alert-text-error").textContent =
-            "Impossibile inserire workout!";
-          $("#alert-modal-error").modal("show");
-        }
-      })
-      .catch(function (error) {
-        document.querySelector("#alert-text-error").textContent =
-          "Impossibile inserire workout :: " + error;
-        $("#alert-modal-error").modal("show");
+    try {
+      const response = await fetch("../workout", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: workoutJSON,
       });
-  }
-});
 
-function createSchede(listInputElements) {
-  let workout = {
-    name: document.querySelector("#input-workout-name").value,
-    schede: [],
-  };
-
-  let scheda_name = "A".charCodeAt(0);
-  let listExercises = [];
-
-  try {
-    listInputElements.forEach((element) => {
-      let ex_JSON = createEx_JSON(element);
-
-      if (element.nextElementSibling.nodeName !== "DIV") {
-        listExercises.push(ex_JSON);
-
-        let scheda = {
-          name: String.fromCharCode(scheda_name),
-          esercizi: listExercises,
-        };
-
-        workout.schede.push(scheda);
-
-        scheda_name += 1;
-        listExercises = [];
+      if (response.ok) {
+        fillListWorkouts(); // Assuming this function refreshes some part of your UI
+        modalAddWorkout.modal("hide");
+        buttonScheda.hidden = true;
+        alertText.textContent = "Nuovo workout aggiunto!";
       } else {
-        listExercises.push(ex_JSON);
+        alertText.textContent = "Impossibile inserire workout!";
+      }
+      alertModal.modal("show");
+    } catch (error) {
+      console.error("Error submitting workout:", error);
+      alertText.textContent = `Errore: ${error}`;
+      alertModal.modal("show");
+    }
+  });
+
+  function createSchede(listInputElements) {
+    let workout = {
+      name: workoutNameInput.value.trim(),
+      schede: [...processSchede(listInputElements)],
+    };
+    return JSON.stringify(workout);
+  }
+
+  function processSchede(elements) {
+    const schede = []; // Array to hold all schede
+    let currentSchedaExercises = []; // Temp array for current scheda exercises
+    let schedaName = "A"; // Starting name for scheda, increment alphabetically for each new scheda
+
+    elements.forEach((element, index) => {
+      const exercise = createEx_JSON(element);
+      currentSchedaExercises.push(exercise);
+
+      // If the next element is a divider (e.g., <hr>) or the last element in the list,
+      // it indicates the end of the current scheda.
+      const isLastElement = index === elements.length - 1;
+      const isNextDivider = elements[index + 1] && elements[index + 1].matches(".scheda-divider");
+      if (isLastElement || isNextDivider) {
+        schede.push({
+          name: schedaName,
+          esercizi: currentSchedaExercises,
+        });
+        // Reset for the next scheda
+        currentSchedaExercises = [];
+        schedaName = getNextSchedaName(schedaName);
       }
     });
 
-    return JSON.stringify(workout);
-  } catch (error) {
-    return null;
-  }
-}
-
-function createEx_JSON(exerciseRAW) {
-  let titleEx = exerciseRAW.childNodes[0].value;
-  let howMany = exerciseRAW.childNodes[1].value;
-  let reps = exerciseRAW.childNodes[2].value;
-
-  if (titleEx === "" || howMany === "" || reps === "") {
-    throw "missing values!";
+    return schede;
   }
 
-  let esercizio = {
-    name: titleEx,
-    serie: [],
-  };
+  function createEx_JSON(exerciseElement) {
+    const inputs = exerciseElement.querySelectorAll("input");
+    const titleEx = inputs[0].value.trim();
+    const howMany = inputs[1].value.trim();
+    const reps = inputs[2].value.trim();
 
-  let serie = {
-    reps: reps,
-    carico: "0",
-  };
+    if (!titleEx || !howMany || !reps) {
+      throw new Error("missing values");
+    }
 
-  for (let i = 0; i < howMany; i++) {
-    esercizio.serie.push(serie);
+    return {
+      name: titleEx,
+      serie: {
+        series: parseInt(howMany, 10),
+        reps: reps,
+        carico: "KG?", // Assuming 'carico' is not provided in the input, defaulting to "0"
+      },
+    };
   }
 
-  return esercizio;
-}
+  function getNextSchedaName(currentName) {
+    // Increment the ASCII code of the last character for the next scheda name
+    return String.fromCharCode(currentName.charCodeAt(0) + 1);
+  }
+
+
+  function moveElement(element, isMovingUp) {
+    let swapElement = isMovingUp ? element.previousElementSibling : element.nextElementSibling;
+    if (swapElement) {
+      isMovingUp ? swapElement.before(element) : element.before(swapElement);
+    }
+  }
+});

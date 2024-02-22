@@ -1,131 +1,178 @@
-var list = document.querySelector(".listExercises");
-list.innerHTML = "";
-var schedaButtons = document.querySelector("#schedeButtons");
-while (schedaButtons.previousElementSibling !== null) {
-  schedaButtons.previousElementSibling.remove();
+// Use const for elements that do not change
+const list = document.querySelector(".listExercises");
+const schedaButtons = document.querySelector("#schedeButtons");
+
+// Refactor repetitive DOM manipulation into functions
+function clearElement(element) {
+  element.innerHTML = "";
 }
+
+function removeAllPreviousSiblings(element) {
+  while (element.previousElementSibling !== null) {
+    element.previousElementSibling.remove();
+  }
+}
+
+// Initial cleanup
+clearElement(list);
+removeAllPreviousSiblings(schedaButtons);
 fillListWorkouts();
 
-function fillPage(workout_id) {
-  list.innerHTML = "";
-  while (schedaButtons.previousElementSibling !== null) {
-    schedaButtons.previousElementSibling.remove();
-  }
+// Refactored to use async/await for readability
+async function fillPage(workoutId) {
+  clearElement(list);
+  removeAllPreviousSiblings(schedaButtons);
 
-  setTimeout(() => {
-    fetch("../workout/" + workout_id, {
-      method: "GET",
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (json) {
-        fillButtons(json);
+  // Simulate delay if needed
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        let arraySchede = document.querySelectorAll(".schedaButton");
+  try {
+    const response = await fetch(`../workout/${workoutId}`);
+    const json = await response.json();
+    fillButtons(json);
 
-        arraySchede.forEach((el) => {
-          el.addEventListener("click", (event) => {
-            list.innerHTML = "";
-            let schedaName = event.target.textContent;
-            fillScheda(json, schedaName);
-            // ─── From Modifyserie.js ─────
-            modifySerie();
-            updateScheda(workout_id);
-            sendUpdate.parentElement.removeAttribute("hidden");
-            // ─────────────────────────────
-          });
-        });
+    document.querySelectorAll(".schedaButton").forEach((button) => {
+      button.addEventListener("click", async (event) => {
+        clearElement(list);
+        const schedaName = event.target.textContent;
+        fillScheda(json, schedaName);
+
+        modifySerie();
+        updateScheda(workoutId);
+        // sendUpdate.parentElement.removeAttribute("hidden");
       });
-  }, 1000);
+    });
+  } catch (error) {
+    console.error("Failed to fetch workout details:", error);
+  }
 }
 
 function fillScheda(workout, name) {
   list.setAttribute("scheda", name);
-  for (let i = 0; i < workout.schede.length; i++) {
-    if (workout.schede[i].name === name) {
-      workout.schede[i].esercizi.forEach((el) => {
-        let elJSON = fillExercise(el.name, el.serie);
-        list.appendChild(elJSON);
-      });
-    }
-  }
+  workout.schede
+    .find((s) => s.name === name)
+    ?.esercizi.forEach((exercise) => {
+      const exerciseElement = createExerciseElement(
+        exercise.name,
+        exercise.serie
+      );
+      list.appendChild(exerciseElement);
+    });
 }
 
-function fillExercise(name, serie) {
-  let li = document.createElement("li");
-  let h5 = document.createElement("h5");
-  h5.textContent = name;
-
-  li.setAttribute("class", "list-group-item esercizi");
-  li.appendChild(h5);
-  for (let i = 0; i < serie.length; i++) {
-    li.innerHTML += completeElement(
-      name,
-      i + 1,
-      serie[i].carico,
-      serie[i].reps
-    );
-  }
-
+function createExerciseElement(name, serie) {
+  const li = document.createElement("li");
+  li.className = "list-group-item esercizi";
+  li.innerHTML =
+    `<h5>${name}</h5>` +
+    completeElement(name, serie.series, serie.carico, serie.reps);
   return li;
 }
 
-function completeElement(name, num, carico, reps) {
-  let nameToPlace = name.replace(/[^a-zA-Z0-9]+/g, "");
-  let exElement = `<div class="d-flex flex-row justify-content-center align-items-center"><div class="p-2">\
-    <div class="form-check"><input type="checkbox" class="form-check-input" id="${nameToPlace}${num}">\
-    <label class="form-check-label ${nameToPlace}Serie" for="${nameToPlace}${num}"><kbd>${carico}</kbd>\n<kbd>${reps}</kbd></label></div></div>\
-    <div class="p-2"><button type="button" class="btn btn-secondary btn-sm modalMOD" data-bs-toggle="modal" data-bs-target="#modalModifySerie">aggiorna</button></div></div>`;
+// Refactor to use template literals and extract similar functionality
+function completeElement(name, series_num, carico, reps) {
+  const nameToPlace = name.replace(/[^a-zA-Z0-9]+/g, "");
+  const increment = 100 / series_num; // Calculate increment per series completion
 
-  return exElement;
+  // Button to mark a series as completed, with an onclick event calling incrementSeries function
+  const buttonHTML = `
+    <button type="button" class="btn btn-outline-success me-2" onclick="incrementSeries('${nameToPlace}', ${increment})">&#10003;</button>
+  `;
+
+  // Exercise details with badges and update button
+  const exerciseDetailsHTML = `
+    <div class="d-flex align-items-center">
+      ${buttonHTML}
+      <div class="exercise-details me-2">
+        <span class="badge bg-danger me-1 series">${series_num}</span>
+        <span class="badge bg-secondary me-1 weight">${carico}</span>
+        <span class="badge bg-secondary reps">${reps}</span>
+      </div>
+      <button type="button" class="btn btn-warning btn-sm modalMOD" data-bs-toggle="modal" data-bs-target="#modalModifySerie">aggiorna</button>
+    </div>
+  `;
+
+  // Progress bar HTML, placed in its own 'row' under the exercise details
+  const progressBarHTML = `
+    <div class="progress mt-2" role="progressbar" aria-label="Exercise progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress${nameToPlace}" style="width: 0%"></div>
+    </div>
+  `;
+
+  // Combine exercise details and progress bar
+  return `
+    <div>
+      ${exerciseDetailsHTML}
+      ${progressBarHTML}
+    </div>
+  `;
 }
 
+// Function to increment series progress
+function incrementSeries(nameToPlace, increment) {
+  const progressBar = document.getElementById(`progress${nameToPlace}`);
+  let currentProgress = parseFloat(progressBar.style.width) || 0;
+  let newProgress = currentProgress + increment;
+  newProgress = newProgress > 100 ? 100 : newProgress; // Ensure progress does not exceed 100%
+
+  progressBar.style.width = `${newProgress}%`;
+  progressBar.setAttribute("aria-valuenow", newProgress);
+
+  // Optional: Perform additional actions when series is completed
+  if (newProgress === 100) {
+    // Example: Alert completion or disable button
+    console.log("Series completed for", nameToPlace);
+  }
+}
+
+// ─── Populate Series Buttons ───────────────────────────────────────────── ✣ ─
 function fillButtons(json) {
-  // ─── Create Button Group ─────────────────────────────────────────────
-  let new_buttons = document.createElement("div");
-  new_buttons.className = "p-2";
-  let new_btn_group = document.createElement("div");
-  new_btn_group.className = "btn-group";
-  new_btn_group.role = "group";
+  const buttonContainer = document.createElement("div");
+  buttonContainer.className = "btn-group";
+  buttonContainer.setAttribute("role", "group");
 
-  // ─── Add Buttons ─────────────────────────────────────────────────────
+  // Use a document fragment to minimize DOM manipulation
+  const fragment = document.createDocumentFragment();
+
   json.schede.forEach((scheda) => {
-    let name = scheda.name;
-    let button = `<button type="button" class="btn btn-secondary schedaButton">${name}</button>`;
-    new_btn_group.innerHTML += button;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn btn-secondary schedaButton";
+    button.textContent = scheda.name;
+    fragment.appendChild(button);
   });
-  new_buttons.insertAdjacentElement("afterbegin", new_btn_group);
 
-  // ─── Create Delete Button ────────────────────────────────────────────
-  let delete_button = document.createElement("div");
-  delete_button.className = "p-2";
-  delete_button.innerHTML = `<button type="button" class="btn deleteButton" workout="${json.name}">\
-    <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAm0lEQVR4nK1TQQ7DIAzjR0v+EquH7R+9dTvuzy31hCokOlKG1kaKhIiTOA6EcKVRMFExHMYVQ8K4wah4rQpGwULFoy5uiIJ5w9i76rwqmD0BSybpnJOz75hQYN+AzKTsvIvd7F7NF2vg7N0d6kSHyc/OvUW6kpN5M7e205XcVYRnRGRjVa0VX/eQwgYaW2qXTBaxp6/Dmc/0r30ABUY5+6pBXusAAAAASUVORK5CYII="></i>\
-    </button>`;
-
-  schedaButtons.insertAdjacentElement("beforebegin", new_buttons);
-  new_buttons.insertAdjacentElement("beforebegin", delete_button);
+  buttonContainer.appendChild(fragment);
+  schedaButtons.insertAdjacentElement("beforebegin", buttonContainer);
 
   // ─── Create Listener For Workout Deletion ────────────────────────────
-  setDeleteWorkout();
+  // setDeleteWorkout();
 }
 
-function fillListWorkouts() {
-  let list_workouts = document.querySelector(".listWorkouts");
-  list_workouts.innerHTML = "";
+// ─── Populate Workouts Buttons ─────────────────────────────────────────── ✣ ─
+async function fillListWorkouts() {
+  const listWorkouts = document.querySelector(".listWorkouts");
+  clearElement(listWorkouts); // Reusing the clearElement function from the previous refactor
 
-  fetch("../workout")
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (array) {
-      array.forEach((el) => {
-        let button = `<button type="button" class="btn-sm list-group-item list-group-item-action workoutEl">${el}</button>`;
-        list_workouts.innerHTML += button;
-      });
-      // ─── From Changeworkout.js ───────────────────────────
-      changeWorkout();
-      // ─────────────────────────────────────────────────────
+  try {
+    const response = await fetch("../workout");
+    const workouts = await response.json();
+
+    // Similar to fillButtons, use a document fragment for efficiency
+    const fragment = document.createDocumentFragment();
+
+    workouts.forEach((workout) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className =
+        "btn-sm list-group-item list-group-item-action workoutButton";
+      button.textContent = workout;
+      fragment.appendChild(button);
     });
+
+    listWorkouts.appendChild(fragment);
+
+  } catch (error) {
+    console.error("Failed to load workouts:", error);
+  }
 }

@@ -1,65 +1,62 @@
-let sendUpdate = document.querySelector("#updateScheda");
-sendUpdate.parentElement.setAttribute("hidden", "");
+async function updateScheda(workoutId) {
+  const sendUpdate = document.querySelector("#updateScheda");
+  sendUpdate.addEventListener("click", async () => {
+    const exercisesList = document.querySelectorAll(".esercizi");
+    const schedaName = document.querySelector(".listExercises").getAttribute("scheda");
 
-function updateScheda(workout_id) {
-  sendUpdate.onclick = function () {
-    let exercisesArray = document.querySelectorAll(".esercizi");
-    let scheda_name = document
-      .querySelector(".listExercises")
-      .getAttribute("scheda");
+    if (schedaName) {
+      const updatedScheda = {
+        name: schedaName,
+        esercizi: Array.from(exercisesList).map((el) => {
+          const exerciseName = el.querySelector("h5").textContent;
+          const weightBadge = el.querySelector(".weight").textContent;
+          const repsBadge = el.querySelector(".reps").textContent;
+          const seriesBadge = el.querySelector(".series").textContent;
 
-    if (scheda_name !== "") {
-      let Scheda = {
-        name: scheda_name,
-        esercizi: [],
+          return {
+            name: exerciseName,
+            serie: {
+              series: parseInt(seriesBadge, 10), // Ensure series is an integer
+              carico: weightBadge,
+              reps: repsBadge,
+            },
+          };
+        }),
       };
 
-      exercisesArray.forEach((el) => {
-        let exerciseName = el.firstElementChild.textContent;
+      console.log(JSON.stringify(updatedScheda)); // Debugging line to verify data structure
 
-        let exercise = {
-          name: exerciseName,
-          serie: [],
-        };
-
-        let arraySerie = document.querySelectorAll(
-          "." + exerciseName.replace(/[^a-zA-Z0-9]+/g, "") + "Serie"
-        );
-
-        arraySerie.forEach((serie) => {
-          let carico = serie.firstElementChild.textContent;
-          let reps = serie.firstElementChild.nextElementSibling.textContent;
-
-          exercise.serie.push({
-            reps: reps,
-            carico: carico,
-          });
+      try {
+        const response = await fetch(`../workout/${workoutId}`, {
+          method: "PATCH",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedScheda),
         });
 
-        Scheda.esercizi.push(exercise);
-      });
+        if (!response.ok) {
+          throw new Error(`Failed to update workout: ${response.statusText}`);
+        }
 
-      fetch("../workout/" + workout_id, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(Scheda),
-      })
-        .then(function (response) {
-          // from fillPage.js
-          fillPage(workout_id);
-          sendUpdate.parentElement.setAttribute("hidden", "");
-          document.querySelector("#alert-text").textContent =
-            "Aggiornamento eseguito!";
-          $("#alert-modal").modal("show");
-        })
-        .catch(function (error) {
-          document.querySelector("#alert-text").textContent =
-            "Impossibile inserire workout!";
-          $("#alert-modal").modal("show");
-        });
+        fillPage(workoutId);
+        showAlert("Aggiornamento eseguito!", "success");
+      } catch (error) {
+        console.error(error); // Log the error for debugging
+        showAlert("Impossibile aggiornare il workout!", "danger");
+      }
     }
-  };
+  });
+}
+
+
+function showAlert(message, type) {
+  const alertText = document.querySelector("#alert-text");
+  alertText.textContent = message;
+  // Use Bootstrap's modal and alert classes to show the message
+  // Adjust according to your modal setup
+  const alertModal = $("#alert-modal");
+  alertModal.find(".modal-body").className = `modal-body text-${type}`;
+  alertModal.modal("show");
 }

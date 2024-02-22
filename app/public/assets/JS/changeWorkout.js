@@ -1,11 +1,11 @@
-function changeWorkout() {
-  var list_workouts = document.querySelectorAll(".listWorkouts");
+const workoutsContainer = document.querySelector(".listWorkouts");
 
-  list_workouts.forEach((workout_button) => {
-    workout_button.onclick = (event) => {
-      // from FillPage.js
+if (workoutsContainer) {
+  workoutsContainer.addEventListener("click", (event) => {
+    // Ensure the clicked element is one of the workout buttons
+    if (event.target.matches(".workoutButton")) { // Assuming `.workoutButton` class exists on each button
       fillPage(event.target.textContent);
       $("#modalAddWorkout").modal("hide");
-    };
+    }
   });
 }
