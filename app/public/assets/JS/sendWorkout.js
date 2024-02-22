@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         fillListWorkouts(); // Assuming this function refreshes some part of your UI
         modalAddWorkout.modal("hide");
+        buttonScheda.hidden = true;
         alertText.textContent = "Nuovo workout aggiunto!";
       } else {
         alertText.textContent = "Impossibile inserire workout!";
