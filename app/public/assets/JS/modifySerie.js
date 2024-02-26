@@ -1,4 +1,4 @@
-function modifySerie() {
+function modifySerie(workoutId) {
   const elements = document.querySelectorAll(".modalMOD");
   const saveChanges = document.querySelector(".saveChanges");
 
@@ -38,5 +38,8 @@ function modifySerie() {
 
     // Close the modal window using jQuery
     $("#modalModifySerie").modal("hide");
+
+    // Update scheda in the backend
+    updateScheda(workoutId)
   });
 }
