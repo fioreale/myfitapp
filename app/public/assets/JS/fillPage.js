@@ -37,9 +37,7 @@ async function fillPage(workoutId) {
         const schedaName = event.target.textContent;
         fillScheda(json, schedaName);
 
-        modifySerie();
-        updateScheda(workoutId);
-        // sendUpdate.parentElement.removeAttribute("hidden");
+        modifySerie(workoutId);
       });
     });
   } catch (error) {
