@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
-from .api.models.workout import Scheda, Workout
+from .api.models import Scheda, Workout
 from .db.workout_db import (deleteWorkout, getWorkoutDB, getWorkoutList,
                             loadWorkoutDB, updateWorkout)
 
