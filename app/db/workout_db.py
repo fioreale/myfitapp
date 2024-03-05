@@ -3,7 +3,7 @@ import logging
 
 from pymongo import MongoClient
 
-from ..api.models.workout import Scheda, Workout
+from ..api.models import Scheda, Workout
 
 client = MongoClient(
     host="ferretdb.internal",
@@ -18,7 +18,7 @@ collection = db["workouts"]
 
 def getWorkoutDB(name: str):
     try:
-        return collection.find_one({"name": name})
+        return collection.find_one({"name": name}).get("data")
 
     except Exception as e:
         logging.error(f"Failed to get item {name}: {e}")

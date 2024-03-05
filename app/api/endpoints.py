@@ -1,39 +1,27 @@
-import json
 
-import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
-from .api.models import Scheda, Workout
-from .db.workout_db import (deleteWorkout, getWorkoutDB, getWorkoutList,
-                            loadWorkoutDB, updateWorkout)
+from app.api.db.volume import (deleteWorkout, getWorkout, getWorkoutList,
+                               loadWorkout, updateWorkout)
 
-app = FastAPI()
+from .models import Scheda, Workout
 
-
-@app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request, exc):
-    return JSONResponse(
-        status_code=400,
-        content={"message": "Data validation failed", "detail": exc.errors()},
-    )
+router = APIRouter()
 
 
-@app.get("/workout/{name}")
+@router.get("/workout/{name}")
 async def get_workout(name: str):
     if not name:
         raise HTTPException(status_code=400, detail="Name parameter cannot be empty")
 
     try:
-        workout_db = getWorkoutDB(name)
+        workout_db = getWorkout(name)
 
         if workout_db is not None:
-            workout_dict = json.loads(workout_db.get("data"))
-
-            workout_data = Workout(**workout_dict)
+            workout_data = Workout(**workout_db)
 
             return workout_data
         else:
@@ -42,7 +30,7 @@ async def get_workout(name: str):
         raise RequestValidationError(errors=e.errors())
 
 
-@app.delete("/workout/{name}")
+@router.delete("/workout/{name}")
 async def delete_workout(name: str):
     if not name:
         raise HTTPException(status_code=400, detail="Name parameter cannot be empty")
@@ -60,7 +48,7 @@ async def delete_workout(name: str):
         raise RequestValidationError(errors=e.errors())
 
 
-@app.get("/workout")
+@router.get("/workout")
 async def get_workout_list():
     try:
         workout_list_data = getWorkoutList()
@@ -70,10 +58,10 @@ async def get_workout_list():
         raise RequestValidationError(errors=e.errors())
 
 
-@app.post("/workout")
+@router.post("/workout")
 async def load_workout(workout: Workout):
     try:
-        if loadWorkoutDB(workout):
+        if loadWorkout(workout):
             return JSONResponse(
                 status_code=200, content={"message": "Workout upload successful"}
             )
@@ -85,7 +73,7 @@ async def load_workout(workout: Workout):
         raise RequestValidationError(errors=e.errors())
 
 
-@app.patch("/workout/{name}")
+@router.patch("/workout/{name}")
 async def update_workout(name: str, scheda: Scheda):
     try:
         if updateWorkout(name, scheda):
@@ -98,9 +86,3 @@ async def update_workout(name: str, scheda: Scheda):
             )
     except ValidationError as e:
         raise RequestValidationError(errors=e.errors())
-
-
-app.mount("/", StaticFiles(directory="app/public", html=True))
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
