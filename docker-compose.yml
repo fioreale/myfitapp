@@ -1,44 +1,20 @@
 version: "3.9"
 services:
-  myFitApp:
-    ports:
-      - "8000:8000"
-    image: my-fitapp
-    container_name: my-fitapp
+  myfitapp:
+    container_name: myfitapp
     build:
       context: .
       dockerfile: ./docker/Dockerfile
     restart: on-failure
-    networks:
-      - ferretdb
-
-  postgres:
-    image: postgres:alpine
-    container_name: postgres
     ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=username
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=ferretdb
+      - "8000:8000"
     networks:
-      ferretdb:
-        aliases:
-          - postgres.internal
-
-  ferretdb:
-    image: ghcr.io/ferretdb/ferretdb:latest
-    container_name: ferretdb
-    restart: on-failure
-    ports:
-      - 27017:27017
-    environment:
-      - FERRETDB_POSTGRESQL_URL=postgres://postgres:5432/ferretdb
-    networks:
-      ferretdb:
-        aliases:
-          - ferretdb.internal
+      - myfitapp_net
+    volumes:
+      - workouts_data:/data
 
 networks:
-  ferretdb:
-    driver: bridge
+  myfitapp_net: {}
+
+volumes:
+  workouts_data:
