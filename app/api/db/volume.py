@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 from typing import List, Optional
 
-from ..model import Scheda, Workout
+from ..models import Scheda, Workout
 
 # Define the directory where workout files will be stored
 DATA_DIR = Path("/data")  # Update this path as needed
