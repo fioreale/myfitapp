@@ -62,7 +62,6 @@ function createExerciseElement(name, serie) {
   const li = document.createElement("li");
   li.className = "list-group-item esercizi";
   li.innerHTML =
-    `<h5>${name}</h5>` +
     completeElement(name, serie.series, serie.carico, serie.reps);
   return li;
 }
@@ -74,32 +73,37 @@ function completeElement(name, series_num, carico, reps) {
 
   // Button to mark a series as completed, with an onclick event calling incrementSeries function
   const buttonHTML = `
-    <button type="button" class="btn btn-outline-success me-2" onclick="incrementSeries('${nameToPlace}', ${increment})">&#10003;</button>
+    <button type="button" class="p-2 btn btn-outline-success me-2" onclick="incrementSeries('${nameToPlace}', ${increment})">&#10003;</button>
   `;
 
   // Exercise details with badges and update button
   const exerciseDetailsHTML = `
-    <div class="d-flex align-items-center">
+    <div class="d-flex flex-row align-items-center">
       ${buttonHTML}
-      <div class="exercise-details me-2">
-        <span class="badge bg-danger me-1 series">${series_num}</span>
-        <span class="badge bg-secondary me-1 weight">${carico}</span>
-        <span class="badge bg-secondary reps">${reps}</span>
+      <div class="p-2 flex-column exercise-details flex-grow-1">
+        <div>&#128200; <span class="badge bg-danger me-1 series">${series_num}</span></div>
+        <div>&#x1F3CB;&#xFE0F; <span class="badge bg-secondary me-1 weight">${carico}</span></div>
+        <div>&#x270D;&#xFE0F; <span class="badge bg-secondary reps">${reps}</span></div>
       </div>
-      <button type="button" class="btn btn-warning btn-sm modalMOD" data-bs-toggle="modal" data-bs-target="#modalModifySerie">aggiorna</button>
+      <button type="button" class="p-2 btn btn-warning btn-sm modalMOD" data-bs-toggle="modal"
+        data-bs-target="#modalModifySerie">aggiorna</button>
     </div>
-  `;
+   `;
 
   // Progress bar HTML, placed in its own 'row' under the exercise details
   const progressBarHTML = `
-    <div class="progress mt-2" role="progressbar" aria-label="Exercise progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress${nameToPlace}" style="width: 0%"></div>
+    <div class="progress mt-2" role="progressbar" aria-label="Exercise progress" aria-valuenow="0" aria-valuemin="0"
+      aria-valuemax="100">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress${nameToPlace}" style="width: 0%">
+      </div>
     </div>
   `;
 
-  // Combine exercise details and progress bar
+  // Combine exercise details and progress bar. To ensure the div covers the entire width on mobile and has a fixed length on desktop,
+  // use Bootstrap's grid system and responsive utility classes.
   return `
-    <div>
+    <div class="container col-12 col-md-6">
+      <h5>${name}</h5>
       ${exerciseDetailsHTML}
       ${progressBarHTML}
     </div>
