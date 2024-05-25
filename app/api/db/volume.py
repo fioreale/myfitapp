@@ -9,14 +9,14 @@ from ..models import Scheda, Workout
 DATA_DIR = Path("/data")  # Update this path as needed
 
 
-def get_workout_file_path(name: str) -> Path:
+def generate_workout_file_path(name: str) -> Path:
     """Generate a file path for a given workout name."""
     return DATA_DIR / f"{name}.json"
 
 
-def getWorkout(name: str) -> Optional[dict]:
+def read_workout_from_json(name: str) -> Optional[dict]:
     """Retrieve a workout from a JSON file."""
-    file_path = get_workout_file_path(name)
+    file_path = generate_workout_file_path(name)
     try:
         if file_path.exists():
             with file_path.open("r") as file:
@@ -26,7 +26,7 @@ def getWorkout(name: str) -> Optional[dict]:
     return None
 
 
-def getWorkoutList() -> List[str]:
+def list_all_workouts() -> List[str]:
     """List all workouts by scanning the data directory for JSON files."""
     try:
         return [f.stem for f in DATA_DIR.glob("*.json")]
@@ -35,9 +35,9 @@ def getWorkoutList() -> List[str]:
         return []
 
 
-def loadWorkout(workout: Workout) -> bool:
+def save_workout_to_json(workout: Workout) -> bool:
     """Save a workout to a JSON file."""
-    file_path = get_workout_file_path(workout.name)
+    file_path = generate_workout_file_path(workout.name)
     try:
         with file_path.open("w") as file:
             json.dump(workout.model_dump(), file)
@@ -47,9 +47,9 @@ def loadWorkout(workout: Workout) -> bool:
         return False
 
 
-def updateWorkout(name: str, scheda: Scheda) -> bool:
+def update_workout_in_json(name: str, scheda: Scheda) -> bool:
     """Update a workout by modifying its JSON file."""
-    workout_data = getWorkout(name)
+    workout_data = read_workout_from_json(name)
     try:
         if workout_data:
             workout_obj = Workout(**workout_data)
@@ -58,7 +58,7 @@ def updateWorkout(name: str, scheda: Scheda) -> bool:
                 if s.name == scheda.name:
                     workout_obj.schede[idx] = scheda
 
-            if loadWorkout(workout_obj):
+            if save_workout_to_json(workout_obj):
                 return True
             else:
                 logging.error(
@@ -73,9 +73,9 @@ def updateWorkout(name: str, scheda: Scheda) -> bool:
         return False
 
 
-def deleteWorkout(name: str) -> bool:
+def delete_workout_file(name: str) -> bool:
     """Delete a workout's JSON file."""
-    file_path = get_workout_file_path(name)
+    file_path = generate_workout_file_path(name)
     try:
         file_path.unlink(missing_ok=True)
         return True
