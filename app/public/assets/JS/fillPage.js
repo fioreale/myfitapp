@@ -73,22 +73,38 @@ function completeElement(name, series_num, carico, reps) {
 
   // Button to mark a series as completed, with an onclick event calling incrementSeries function
   const buttonHTML = `
-    <button type="button" class="p-2 btn btn-outline-success me-2" onclick="incrementSeries('${nameToPlace}', ${increment})">&#10003;</button>
+    <button type="button" class="btn btn-outline-success w-100" onclick="incrementSeries('${nameToPlace}', ${increment})">&#10003;</button>
   `;
 
   // Exercise details with badges and update button
   const exerciseDetailsHTML = `
-    <div class="d-flex flex-row align-items-center">
-      ${buttonHTML}
-      <div class="p-2 flex-column exercise-details flex-grow-1">
-        <div>&#128200; <span class="badge bg-danger me-1 series">${series_num}</span></div>
-        <div>&#x1F3CB;&#xFE0F; <span class="badge bg-secondary me-1 weight">${carico}</span></div>
-        <div>&#x270D;&#xFE0F; <span class="badge bg-secondary reps">${reps}</span></div>
+  <div class="container-fluid px-0">
+      <div class="row gx-0 gy-2 align-items-center">
+          <div class="col-12">
+              ${buttonHTML}
+          </div>
+          <div class="col-12 col-md exercise-details">
+              <ul class="list-unstyled mb-0">
+                  <li class="d-flex justify-content-start align-items-center mb-2">
+                      <span><i class="bi bi-list-ol me-2"></i></span> 
+                      <span class="badge text-bg-danger px-2 text-wrap series">${series_num}</span>
+                  </li>
+                  <li class="d-flex justify-content-start align-items-center mb-2">
+                      <span><i class="bi bi-download me-2"></i></span>  
+                      <span class="badge text-bg-light px-2 text-wrap weight">${carico}</span>
+                  </li>
+                  <li class="d-flex justify-content-start align-items-center">
+                      <span><i class="bi bi-arrow-repeat me-2"></i></span> 
+                      <span class="badge text-bg-light px-2 text-wrap reps">${reps}</span>
+                  </li>
+              </ul>
+          </div>
+          <div class="col-12 d-flex justify-content-end">
+              <button type="button" class="btn btn-warning btn-sm w-100 modalMOD" data-bs-toggle="modal" data-bs-target="#modalModifySerie">Aggiorna</button>
+          </div>
       </div>
-      <button type="button" class="p-2 btn btn-warning btn-sm modalMOD" data-bs-toggle="modal"
-        data-bs-target="#modalModifySerie">aggiorna</button>
-    </div>
-   `;
+  </div>
+  `;
 
   // Progress bar HTML, placed in its own 'row' under the exercise details
   const progressBarHTML = `
@@ -102,8 +118,10 @@ function completeElement(name, series_num, carico, reps) {
   // Combine exercise details and progress bar. To ensure the div covers the entire width on mobile and has a fixed length on desktop,
   // use Bootstrap's grid system and responsive utility classes.
   return `
-    <div class="container col-12 col-md-6">
-      <h5>${name}</h5>
+    <div class="container col-12 col-md-6 text-center">
+      <div class="title-container">
+        <h5 class="fs-4">${name}</h5>
+      </div>
       ${exerciseDetailsHTML}
       ${progressBarHTML}
     </div>
