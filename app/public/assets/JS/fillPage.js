@@ -143,6 +143,11 @@ function incrementSeries(nameToPlace, increment) {
     // Example: Alert completion or disable button
     console.log("Series completed for", nameToPlace);
   }
+
+  $("#collapseTimer").collapse("show");
+  const [minutes, seconds] = document.querySelector("#rest-time").textContent.split(":").map(Number);
+  const durationInSeconds = minutes * 60 + seconds;
+  timer.start(durationInSeconds);
 }
 
 // ─── Populate Series Buttons ───────────────────────────────────────────── ✣ ─
