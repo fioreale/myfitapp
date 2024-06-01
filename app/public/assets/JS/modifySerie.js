@@ -12,7 +12,7 @@ function modifySerie(workoutId) {
     el.addEventListener("click", (event) => {
       // Navigate the DOM to find the corresponding weight and reps badges
       const exerciseDetail = event.target
-        .closest(".d-flex.align-items-center")
+        .closest(".row.gx-0.gy-2.align-items-center")
         .querySelector(".exercise-details");
       weightMOD = exerciseDetail.querySelector(".weight");
       repsMOD = exerciseDetail.querySelector(".reps");
