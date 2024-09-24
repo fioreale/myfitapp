@@ -3,14 +3,14 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from app.api.db.volume import (
+from myfitapp.api.db.volume import (
     delete_workout_file,
     read_workout_from_json,
     list_all_workouts,
     save_workout_to_json,
     update_workout_in_json,
 )
-from .models import Scheda, Workout
+from myfitapp.api.models import Scheda, Workout
 
 router = APIRouter()
 
