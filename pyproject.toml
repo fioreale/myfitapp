@@ -1,20 +1,96 @@
-[tool.poetry]
-name = "myfitapp"
-version = "0.1.0"
-description = "a cloud native application for tracking gym workouts, built in FastAPI."
-authors = ["fioreale <alefio96@gmail.com>"]
-readme = "README.md"
+[project]
+    name = "myfitapp"
+    version = "0.1.0"
+    description = "a cloud native application for tracking gym workouts, built in FastAPI."
+    authors = [
+        { name = "fioreale", email = "alefio96@gmail.com" },
+    ]
+    dependencies = [
+        "fastapi==0.115.0",
+        "pymongo==4.9.1",
+        "ruff==0.6.7",
+        "uvicorn==0.30.6",
+    ]
+    readme = "README.md"
+    requires-python = ">= 3.12"
 
-[tool.poetry.dependencies]
-python = "^3.10"
-fastapi = "^0.109.1"
-pymongo = "^4.5.0"
-uvicorn = "^0.23.2"
-ruff = "^0.0.287"
-black = "^23.7.0"
-isort = "^5.12.0"
+[tool.ruff]
+    exclude = [
+        ".bzr",
+        ".direnv",
+        ".eggs",
+        ".git",
+        ".git-rewrite",
+        ".hg",
+        ".ipynb_checkpoints",
+        ".mypy_cache",
+        ".nox",
+        ".pants.d",
+        ".pyenv",
+        ".pytest_cache",
+        ".pytype",
+        ".ruff_cache",
+        ".svn",
+        ".tox",
+        ".venv",
+        ".vscode",
+        "__pypackages__",
+        "_build",
+        "buck-out",
+        "build",
+        "dist",
+        "node_modules",
+        "site-packages",
+        "venv",
+    ]
 
+    line-length = 88
+    indent-width = 4
+
+    target-version = "py312"
+
+[tool.ruff.lint]
+    select = [
+        "E4",
+        "E7",
+        "E9",
+        "F",
+    ]
+    ignore = [
+    ]
+
+    fixable = [
+        "ALL",
+    ]
+    unfixable = [
+    ]
+
+    dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+    quote-style = "double"
+    indent-style = "space"
+    skip-magic-trailing-comma = false
+    line-ending = "auto"
+    docstring-code-format = false
+    docstring-code-line-length = "dynamic"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+    requires = [
+        "hatchling",
+    ]
+    build-backend = "hatchling.build"
+
+[tool.rye]
+    managed = true
+    virtual = true
+    dev-dependencies = [
+    ]
+
+[tool.hatch.metadata]
+    allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+    packages = [
+        "src/myfitapp",
+    ]
