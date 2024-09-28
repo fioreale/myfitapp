@@ -38,9 +38,9 @@
     }
   });
 
-  afterUpdate(() => {
-    fetchExercises();
-  });
+  // afterUpdate(() => {
+  //   fetchExercises();
+  // });
 
   async function fetchExercises() {
     if (!selectedWorkout || !selectedScheda) return;
@@ -126,7 +126,35 @@
           <h5 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
             {exercise.name}
           </h5>
-          <div class="flex flex-wrap gap-2">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-[auto_1fr_auto] gap-2 sm:gap-4 items-start"
+          >
+            <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+              <div class="flex items-center space-x-2">
+                <span class="text-gray-600 dark:text-gray-300">Series:</span>
+                <span
+                  class="px-2 py-1 bg-red-100 text-red-800 text-sm font-medium rounded-full dark:bg-red-700 dark:text-red-100"
+                >
+                  {exercise.serie.series}
+                </span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-gray-600 dark:text-gray-300">Carico:</span>
+                <span
+                  class="px-2 py-1 bg-gray-100 text-gray-800 text-sm font-medium rounded-full dark:bg-gray-600 dark:text-gray-100"
+                >
+                  {exercise.serie.carico}
+                </span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-gray-600 dark:text-gray-300">Reps:</span>
+                <span
+                  class="px-2 py-1 bg-gray-100 text-gray-800 text-sm font-medium rounded-full dark:bg-gray-600 dark:text-gray-100"
+                >
+                  {exercise.serie.reps}
+                </span>
+              </div>
+            </div>
             <button
               type="button"
               class="w-full sm:w-auto px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg shadow-md transition duration-300 ease-in-out"
@@ -135,38 +163,6 @@
             >
               &#10003;
             </button>
-            <div class="flex flex-col sm:flex-row sm:gap-2 w-full sm:w-auto">
-              <div class="flex items-center space-x-2">
-                <span class="text-gray-600 dark:text-gray-300"
-                  ><i class="bi bi-list-ol"></i></span
-                >
-                <span
-                  class="px-2 py-1 bg-red-100 text-red-800 text-sm font-medium rounded-full dark:bg-red-700 dark:text-red-100"
-                >
-                  {exercise.serie.series}
-                </span>
-              </div>
-              <div class="flex items-center space-x-2">
-                <span class="text-gray-600 dark:text-gray-300"
-                  ><i class="bi bi-download"></i></span
-                >
-                <span
-                  class="px-2 py-1 bg-gray-100 text-gray-800 text-sm font-medium rounded-full dark:bg-gray-600 dark:text-gray-100"
-                >
-                  {exercise.serie.carico}
-                </span>
-              </div>
-              <div class="flex items-center space-x-2">
-                <span class="text-gray-600 dark:text-gray-300"
-                  ><i class="bi bi-arrow-repeat"></i></span
-                >
-                <span
-                  class="px-2 py-1 bg-gray-100 text-gray-800 text-sm font-medium rounded-full dark:bg-gray-600 dark:text-gray-100"
-                >
-                  {exercise.serie.reps}
-                </span>
-              </div>
-            </div>
             <button
               type="button"
               class="w-full sm:w-auto px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-lg shadow-md transition duration-300 ease-in-out"

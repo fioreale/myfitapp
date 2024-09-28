@@ -127,10 +127,12 @@
   }
 </script>
 
-<div class="bg-white shadow-md rounded-lg p-6 max-w-md mx-auto">
+<div
+  class="bg-white shadow-md rounded-lg p-4 max-w-md mx-auto w-full sm:w-auto"
+>
   <div class="flex flex-col space-y-4">
-    <div class="flex justify-between items-center">
-      <div class="flex space-x-2">
+    <div class="flex flex-wrap justify-between items-center gap-2">
+      <div class="flex flex-wrap gap-2">
         <button
           type="button"
           class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm"
@@ -177,7 +179,7 @@
     </div>
 
     <div class="flex justify-between items-center">
-      <div class="text-2xl font-bold">{restTime}</div>
+      <div class="text-xl font-bold sm:text-2xl">{restTime}</div>
       <button
         type="button"
         class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg shadow-md transition duration-300 ease-in-out"
@@ -191,10 +193,10 @@
 
 {#if timerVisible}
   <div
-    class="bg-yellow-100 border-l-[20px] border-yellow-500 p-4 mt-4 max-w-md mx-auto overflow-hidden"
+    class="bg-yellow-100 border-l-[20px] border-yellow-500 p-4 mt-4 max-w-md mx-auto overflow-hidden w-full sm:w-auto"
     transition:slide={{ duration: 300, axis: "y" }}
   >
-    <p class="font-bold text-yellow-700 text-center text-6xl">
+    <p class="font-bold text-yellow-700 text-center text-5xl sm:text-6xl">
       {currentTime}
     </p>
   </div>
