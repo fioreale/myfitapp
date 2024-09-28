@@ -89,7 +89,9 @@
       try {
         const updatedScheda = {
           name: selectedScheda,
-          esercizi: [currentExercise],
+          esercizi: exercises.map((e) =>
+            e.name === currentExercise!.name ? currentExercise : e
+          ),
         };
 
         const response = await fetch(`/api/workout/${selectedWorkout}`, {
@@ -116,19 +118,15 @@
   }
 </script>
 
-<div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+<div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 sm:p-6">
   <ul class="space-y-4">
     {#each exercises as exercise (exercise.name)}
       <li class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 shadow">
         <div class="flex flex-col space-y-4">
-          <div class="flex justify-between items-center">
-            <h5 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
-              {exercise.name}
-            </h5>
-          </div>
-          <div
-            class="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0 sm:space-x-4"
-          >
+          <h5 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            {exercise.name}
+          </h5>
+          <div class="flex flex-wrap gap-2">
             <button
               type="button"
               class="w-full sm:w-auto px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg shadow-md transition duration-300 ease-in-out"
@@ -137,7 +135,7 @@
             >
               &#10003;
             </button>
-            <div class="flex flex-col space-y-2">
+            <div class="flex flex-col sm:flex-row sm:gap-2 w-full sm:w-auto">
               <div class="flex items-center space-x-2">
                 <span class="text-gray-600 dark:text-gray-300"
                   ><i class="bi bi-list-ol"></i></span
@@ -177,7 +175,9 @@
               Aggiorna
             </button>
           </div>
-          <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+          <div
+            class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-4"
+          >
             <div
               class="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
               id="progress{exercise.name.replace(/[^a-zA-Z0-9]+/g, '')}"
