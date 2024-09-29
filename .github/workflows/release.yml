@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Release type"
+        required: true
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+      changes:
+        description: "Main changes manifesto"
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.0
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+
+      - name: Install dependencies
+        run: npm install -g semver
+
+      - name: Get current version
+        id: current_version
+        run: echo "::set-output name=version::$(git describe --tags --abbrev=0 || echo v0.0.0)"
+
+      - name: Calculate new version
+        id: new_version
+        run: |
+          current=$(echo ${{ steps.current_version.outputs.version }} | sed 's/v//')
+          new=$(semver -i ${{ github.event.inputs.release_type }} $current)
+          echo "::set-output name=version::v$new"
+
+      - name: Update version in files
+        run: |
+          # Update version in pyproject.toml
+          sed -i 's/version = ".*"/version = "${{ steps.new_version.outputs.version }}"/' pyproject.toml
+
+          # Update version in package.json
+          sed -i 's/"version": ".*"/"version": "${{ steps.new_version.outputs.version }}"/' src/myfitapp/front/myfitapp-ui/package.json
+
+      - name: Commit version update
+        run: |
+          git config --local user.email "alefio96@gmail.com"
+          git config --local user.name "fioreale"
+          git add -A
+          git commit -m "Bump version to ${{ steps.new_version.outputs.version }}"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
+
+      - name: Create a Release
+        uses: elgohr/Github-Release-Action@v5
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          title: Release ${{ steps.new_version.outputs.version }}
+          tag: ${{ steps.new_version.outputs.version }}
