@@ -1,27 +1,19 @@
 # Changelog
 
-## [v3.0.0](https://github.com/fioreale/myfitapp/tree/v3.0.0) (2024-09-30)
+## [v3.0.1](https://github.com/fioreale/myfitapp/tree/v3.0.1) (2024-09-30)
 
-[Full Changelog](https://github.com/fioreale/myfitapp/compare/v2.2.1...v3.0.0)
+[Full Changelog](https://github.com/fioreale/myfitapp/compare/v3.0.0...v3.0.1)
 
 **Closed issues:**
 
-- Refactor as rye project [\#32](https://github.com/fioreale/myfitapp/issues/32)
-- Moving to a local volume [\#26](https://github.com/fioreale/myfitapp/issues/26)
-- Update upon editing [\#23](https://github.com/fioreale/myfitapp/issues/23)
-- Trim text when adding new workout [\#13](https://github.com/fioreale/myfitapp/issues/13)
-- Add MongoDB [\#9](https://github.com/fioreale/myfitapp/issues/9)
+- Refactor UI - SvelteKit [\#34](https://github.com/fioreale/myfitapp/issues/34)
+- Exercises description improvement [\#24](https://github.com/fioreale/myfitapp/issues/24)
+- Set up CI/CD pipelines [\#16](https://github.com/fioreale/myfitapp/issues/16)
 
 **Merged pull requests:**
 
-- Cleanup and Version Bump [\#38](https://github.com/fioreale/myfitapp/pull/38) ([fioreale](https://github.com/fioreale))
-- Develop [\#37](https://github.com/fioreale/myfitapp/pull/37) ([fioreale](https://github.com/fioreale))
-- ci: first upload [\#36](https://github.com/fioreale/myfitapp/pull/36) ([fioreale](https://github.com/fioreale))
-- 34 refactor UI sveltekit [\#35](https://github.com/fioreale/myfitapp/pull/35) ([fioreale](https://github.com/fioreale))
-- 32 refactor as rye project [\#33](https://github.com/fioreale/myfitapp/pull/33) ([fioreale](https://github.com/fioreale))
-- 24 exercises description improvement [\#31](https://github.com/fioreale/myfitapp/pull/31) ([fioreale](https://github.com/fioreale))
-- 26 moving to a local volume [\#27](https://github.com/fioreale/myfitapp/pull/27) ([fioreale](https://github.com/fioreale))
-- updated scheda upon editing each exercise [\#25](https://github.com/fioreale/myfitapp/pull/25) ([fioreale](https://github.com/fioreale))
+- Enhance CI/CD Pipeline and Remove Deprecated Configurations [\#40](https://github.com/fioreale/myfitapp/pull/40) ([fioreale](https://github.com/fioreale))
+- Merge from Master [\#39](https://github.com/fioreale/myfitapp/pull/39) ([fioreale](https://github.com/fioreale))
 
 
 
