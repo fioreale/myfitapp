@@ -83,6 +83,10 @@ The frontend will be available at `http://localhost:4173`.
 
 Open a web browser and navigate to `http://localhost:4173` to access the myFitApp frontend. The frontend will communicate with the backend running at `http://localhost:8000`.
 
+## License
+
+myFitApp is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
 ## Contribution Guidelines 🤝
 
 I encourage contributions and improvements from the community! If you're interested in enhancing this project or adding new features, I welcome your input. Here are ways you can contribute:
