@@ -1,6 +1,6 @@
 [project]
     name = "myfitapp"
-    version = "v2.2.2"
+    version = "v3.0.0"
     description = "a cloud native application for tracking gym workouts, built in FastAPI."
     authors = [
         { name = "fioreale", email = "alefio96@gmail.com" },
