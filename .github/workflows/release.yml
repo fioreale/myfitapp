@@ -11,10 +11,6 @@ on:
           - major
           - minor
           - patch
-      changes:
-        description: "Main changes manifesto"
-        required: true
-        type: string
 
 jobs:
   release:
@@ -23,7 +19,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
         with:
-          fetch-depth: 0
+          ref: ${{ github.event.inputs.branch }}
+
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -52,6 +49,15 @@ jobs:
           # Update version in package.json
           sed -i 's/"version": ".*"/"version": "${{ steps.new_version.outputs.version }}"/' src/myfitapp/front/myfitapp-ui/package.json
 
+      - name: Generate Changelog
+        id: changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          sinceTag: ${{ steps.current_version.outputs.version }}
+          futureRelease: ${{ steps.new_version.outputs.version }}
+          output: CHANGELOG.md
+
       - name: Commit version update
         run: |
           git config --local user.email "alefio96@gmail.com"
@@ -63,7 +69,8 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
+          branch: ${{ github.event.inputs.branch }}
+
 
       - name: Create a Release
         uses: elgohr/Github-Release-Action@v5
@@ -72,3 +79,6 @@ jobs:
         with:
           title: Release ${{ steps.new_version.outputs.version }}
           tag: ${{ steps.new_version.outputs.version }}
+          body: |
+            ${{ steps.changelog.outputs.changelog }}
+
