@@ -1,15 +1,14 @@
 [project]
     name = "myfitapp"
-    version = "0.1.0"
+    version = "v2.2.2"
     description = "a cloud native application for tracking gym workouts, built in FastAPI."
     authors = [
         { name = "fioreale", email = "alefio96@gmail.com" },
     ]
     dependencies = [
-        "fastapi==0.115.0",
+        "fastapi[all]==0.115.0",
         "pymongo==4.9.1",
-        "ruff==0.6.7",
-        "uvicorn==0.30.6",
+        "ruff==0.6.8",
     ]
     readme = "README.md"
     requires-python = ">= 3.12"
@@ -46,8 +45,6 @@
 
     line-length = 88
     indent-width = 4
-
-    target-version = "py312"
 
 [tool.ruff.lint]
     select = [
