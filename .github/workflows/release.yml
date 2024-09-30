@@ -57,6 +57,7 @@ jobs:
           futureRelease: ${{ steps.new_version.outputs.version }}
           output: CHANGELOG.md
 
+      - name: Commit version update
         run: |
           git config --local user.email "alefio96@gmail.com"
           git config --local user.name "fioreale"
