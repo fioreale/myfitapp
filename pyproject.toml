@@ -1,6 +1,6 @@
 [project]
     name = "myfitapp"
-    version = "0.1.0"
+    version = "v2.2.2"
     description = "a cloud native application for tracking gym workouts, built in FastAPI."
     authors = [
         { name = "fioreale", email = "alefio96@gmail.com" },
@@ -47,7 +47,7 @@
     line-length = 88
     indent-width = 4
 
-    target-version = "py312"
+    target-version = "v2.2.2"
 
 [tool.ruff.lint]
     select = [
