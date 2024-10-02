@@ -20,4 +20,4 @@ build/
 .vscode/
 *.egg
 *.egg-info/
-*.lock
+*-dev.lock
