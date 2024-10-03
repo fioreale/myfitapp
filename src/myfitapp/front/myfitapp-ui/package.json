@@ -1,6 +1,6 @@
 {
 	"name": "myfitapp-ui",
-	"version": "v3.0.1",
+	"version": "v3.0.2",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",

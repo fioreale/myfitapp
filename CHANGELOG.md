@@ -1,19 +1,12 @@
 # Changelog
 
-## [v3.0.1](https://github.com/fioreale/myfitapp/tree/v3.0.1) (2024-09-30)
+## [v3.0.2](https://github.com/fioreale/myfitapp/tree/v3.0.2) (2024-10-03)
 
-[Full Changelog](https://github.com/fioreale/myfitapp/compare/v3.0.0...v3.0.1)
-
-**Closed issues:**
-
-- Refactor UI - SvelteKit [\#34](https://github.com/fioreale/myfitapp/issues/34)
-- Exercises description improvement [\#24](https://github.com/fioreale/myfitapp/issues/24)
-- Set up CI/CD pipelines [\#16](https://github.com/fioreale/myfitapp/issues/16)
+[Full Changelog](https://github.com/fioreale/myfitapp/compare/v3.0.1...v3.0.2)
 
 **Merged pull requests:**
 
-- Enhance CI/CD Pipeline and Remove Deprecated Configurations [\#40](https://github.com/fioreale/myfitapp/pull/40) ([fioreale](https://github.com/fioreale))
-- Merge from Master [\#39](https://github.com/fioreale/myfitapp/pull/39) ([fioreale](https://github.com/fioreale))
+- Chore/include reuirement lockfile [\#41](https://github.com/fioreale/myfitapp/pull/41) ([fioreale](https://github.com/fioreale))
 
 
 
