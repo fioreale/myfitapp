@@ -77,15 +77,15 @@ Serve the built frontend:
 npm run preview
 ```
 
-The frontend will be available at `http://localhost:4173`.
+The frontend will be available at `http://localhost:5173`.
 
 ### Step 6: Access the Application
 
-Open a web browser and navigate to `http://localhost:4173` to access the myFitApp frontend. The frontend will communicate with the backend running at `http://localhost:8000`.
+Open a web browser and navigate to `http://localhost:5173` to access the myFitApp frontend. The frontend will communicate with the backend running at `http://localhost:8000`.
 
 ## License
 
-myFitApp is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+myFitApp is licensed under the GNU GPL License. See [LICENSE](LICENSE) for details.
 
 ## Contribution Guidelines 🤝
 
